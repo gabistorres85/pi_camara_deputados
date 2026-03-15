@@ -1,29 +1,59 @@
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized files
 __pycache__/
-*.pyc
-*.pyd
-*.pyo
-*.egg-info/
-.eggs/
+*.py[cod]
+*$py.class
 
-# Virtual environment
+# Virtual environments
 venv/
+env/
 .venv/
+ENV/
 
-# Editor/IDE-specific files
-.idea/
-.vscode/
-*.swp
-
-# Sensitive environment variables
+# Environment variables
 .env
-.flaskenv
+.env.*
 
-# Flask session files (if using file-based sessions)
-/*_session/
+# Flask
+instance/
+.webassets-cache
 
-# Databases
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# Database
 *.db
-*.sqlite
-/instance/
+*.sqlite3
 
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.pid
+*.seed
+docker-compose.override.yml
+
+# Testing
+.coverage
+htmlcov/
+
+# Pytest
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+
+# Data files (se você usar pasta de dados)
+data/
