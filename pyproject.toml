@@ -1,0 +1,25 @@
+[project]
+name = "pi-camara-deputados"
+version = "0.1.0"
+description = "Análise de dados da Câmara dos Deputados"
+authors = [
+    {name = "Gabriela Torres", email = "seu-email@exemplo.com"},
+]
+dependencies = [
+    "pandas",
+    "psycopg2-binary",
+    "python-dotenv",
+    "ipykernel>=7.2.0",
+    "plotly>=6.6.0",
+    "matplotlib>=3.10.8",
+    "requests>=2.32.5",
+    "tqdm>=4.67.3",
+]
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = false
