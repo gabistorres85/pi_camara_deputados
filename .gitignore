@@ -40,10 +40,8 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Docker
-*.pid
-*.seed
-docker-compose.override.yml
+#PDM
+.pdm-build/
 
 # Testing
 .coverage
