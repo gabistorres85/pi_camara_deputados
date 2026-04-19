@@ -40,8 +40,9 @@ dist/
 .DS_Store
 Thumbs.db
 
-#PDM
+# PDM
 .pdm-build/
+.pdm-python
 
 # Testing
 .coverage
@@ -53,5 +54,9 @@ htmlcov/
 # MyPy
 .mypy_cache/
 
-# Data files (se você usar pasta de dados)
-data/
+# Data files
+data/*
+!data/.gitkeep
+!data/bronze/
+!data/silver/
+!data/gold/
