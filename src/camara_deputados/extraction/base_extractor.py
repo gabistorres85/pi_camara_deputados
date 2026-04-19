@@ -1,3 +1,6 @@
+from tqdm import tqdm
+import pandas as pd
+
 class BaseExtractor:
 
     def __init__(self, api_client):
