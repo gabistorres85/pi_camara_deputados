@@ -57,3 +57,22 @@ htmlcov/
 
 # Data files (se você usar pasta de dados)
 data/
+
+### PDM ###
+# Ignora a pasta física com as bibliotecas (cada colega gera a sua)
+.venv/
+__pypackages__/
+
+# Ignora arquivos de build e cache
+.pdm-build/
+dist/
+
+# Ignora configurações locais do PDM que podem variar entre usuários
+.pdm-python
+.pdm-variables
+
+### Python Geral ###
+__pycache__/
+*.py[cod]
+*$py.class
+.env
