@@ -1,28 +1,19 @@
 [project]
-name = "pi-camara-deputados"
+name = "camara_deputados"
 version = "0.1.0"
-description = "Análise de dados da Câmara dos Deputados"
+description = "Dashboard ações câmara Deputados"
 authors = [
-    {name = "Gabriela Torres", email = "seu-email@exemplo.com"},
+    {name = "grupo pi 17", email = ""},
 ]
-dependencies = [
-    "pandas",
-    "psycopg2-binary",
-    "python-dotenv",
-    "ipykernel>=7.2.0",
-    "plotly>=6.6.0",
-    "matplotlib>=3.10.8",
-    "requests>=2.32.5",
-    "tqdm>=4.67.3",
-    "numpy>=2.4.3",
-    "openpyxl>=3.1.5",
-    "xlsxwriter>=3.2.9",
-]
+dependencies = ["pandas>=3.0.1", "numpy>=2.4.3", "matplotlib>=3.10.8", "jupyter>=1.1.1", "psycopg2-binary>=2.9.11", "python-dotenv>=1.2.2", "ipykernel>=7.2.0"]
 requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
 
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
+
 [tool.pdm]
-distribution = false
+distribution = true
