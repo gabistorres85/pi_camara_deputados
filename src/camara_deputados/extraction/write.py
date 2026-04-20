@@ -3,7 +3,7 @@ import pandas as pd
 import os
 from datetime import datetime
 
-class DataLoader:
+class DataWrite:
 
     def __init__(self):
         # pega raiz do projeto (subindo a partir do arquivo atual)
