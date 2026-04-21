@@ -55,8 +55,4 @@ htmlcov/
 .mypy_cache/
 
 # Data files
-data/*
-!data/.gitkeep
-!data/bronze/
-!data/silver/
-!data/gold/
+data/
