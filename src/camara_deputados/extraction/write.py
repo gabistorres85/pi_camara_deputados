@@ -11,7 +11,7 @@ class DataWrite:
             os.path.join(os.path.dirname(__file__), "../../..")
         )
 
-    def save_bronze(self, df, dataset, layer="bronze"):
+    def save_parquet(self, df, dataset, layer):
         
         path = os.path.join(
             self.project_root,
