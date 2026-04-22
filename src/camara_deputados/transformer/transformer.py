@@ -1,40 +1,64 @@
 import pandas as pd
+import re
 
 
 class DataTransformer:
     """
-    Classe de transformação de dados (orientada a objeto).
-    Métodos recebem e retornam DataFrame.
+    Classe única de transformação de dados (stateless).
+    Todos os métodos recebem e retornam DataFrame.
     """
 
-    def apply_types(self, df: pd.DataFrame, mapping: dict) -> pd.DataFrame:
+    # =========================
+    # 🔹 RENAME + CAST + SELECT
+    # =========================
+    def rename_and_cast(self, df: pd.DataFrame, mapping: dict) -> pd.DataFrame:
         df = df.copy()
 
-        for col, dtype in mapping.items():
-            if col not in df.columns:
+        # 🔹 cria mapa de rename (só colunas existentes)
+        rename_map = {
+            old: new for old, (new, _) in mapping.items()
+            if old in df.columns
+        }
+
+        # 🔹 renomeia
+        df = df.rename(columns=rename_map)
+
+        # 🔹 aplica tipos
+        for _, (new_col, dtype) in mapping.items():
+
+            if new_col not in df.columns:
                 continue
 
             try:
                 if dtype == "int":
-                    df[col] = pd.to_numeric(df[col], errors="coerce").astype("Int64")
+                    df[new_col] = pd.to_numeric(df[new_col], errors="coerce").astype("Int64")
 
                 elif dtype == "float":
-                    df[col] = pd.to_numeric(df[col], errors="coerce")
+                    df[new_col] = pd.to_numeric(df[new_col], errors="coerce")
 
                 elif dtype == "date":
-                    df[col] = pd.to_datetime(df[col], errors="coerce")
+                    df[new_col] = pd.to_datetime(df[new_col], errors="coerce")
 
                 elif dtype == "str":
-                    df[col] = df[col].astype("string")
+                    df[new_col] = df[new_col].astype("string")
+
+                elif dtype == "bool":
+                    df[new_col] = df[new_col].astype("boolean")
 
                 else:
-                    df[col] = df[col].astype(dtype)
+                    df[new_col] = df[new_col].astype(dtype)
 
             except Exception as e:
-                print(f"[apply_types] Erro na coluna '{col}': {e}")
+                print(f"[rename_and_cast] Erro na coluna '{new_col}': {e}")
 
-        return df
+        # 🔥 mantém apenas colunas realmente renomeadas
+        colunas_final = list(rename_map.values())
 
+        return df[colunas_final]
+
+    # =========================
+    # 🔹 EXPLODE + NORMALIZE
+    # =========================
     def explode_and_extract(
         self,
         df: pd.DataFrame,
@@ -71,61 +95,58 @@ class DataTransformer:
 
         return df
 
-    def rename_and_cast(self, df: pd.DataFrame, mapping: dict) -> pd.DataFrame:
-        """
-        Renomeia e aplica tipo nas colunas.
+    # =========================
+    # 🔹 URI → ID
+    # ========================= 
+    def _extrair_id(self, uri):
+        if pd.isnull(uri):
+            return None
 
-        Ex:
-        mapping = {
-            "id": ("id_deputado", "int"),
-            "dataNascimento": ("dt_nascimento", "date")
-        }
-        """
+        match = re.search(r'/(\d+)(?:\?|$)', str(uri))
+        return int(match.group(1)) if match else None
 
+    def extrair_ids(self, df: pd.DataFrame, colunas: dict) -> pd.DataFrame:
         df = df.copy()
 
-        # 🔹 renomeia tudo de uma vez (melhor prática)
-        rename_map = {
-            old: new for old, (new, _) in mapping.items()
-            if old in df.columns
-        }
+        for coluna_uri, nova_coluna in colunas.items():
 
-        df = df.rename(columns=rename_map)
-
-        # 🔹 aplica tipos
-        for old_col, (new_col, dtype) in mapping.items():
-
-            if new_col not in df.columns:
+            if coluna_uri not in df.columns:
                 continue
 
-            try:
-                if dtype == "int":
-                    df[new_col] = pd.to_numeric(df[new_col], errors="coerce").astype("Int64")
-
-                elif dtype == "float":
-                    df[new_col] = pd.to_numeric(df[new_col], errors="coerce")
-
-                elif dtype == "date":
-                    df[new_col] = pd.to_datetime(df[new_col], errors="coerce")
-
-                elif dtype == "str":
-                    df[new_col] = df[new_col].astype("string")
-
-                else:
-                    df[new_col] = df[new_col].astype(dtype)
-
-            except Exception as e:
-                print(f"[rename_and_cast] Erro na coluna '{new_col}': {e}")
+            df[nova_coluna] = (
+                df[coluna_uri]
+                .apply(self._extrair_id)
+                .astype("Int64")
+            )
 
         return df
 
-    def select_columns(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
-        existing_cols = [col for col in columns if col in df.columns]
-        return df[existing_cols].copy()
+    # =========================
+    # 🔹 URI → TIPO + ID
+    # =========================
+    def _extrair_tipo_id(self, uri):
+        if pd.isnull(uri):
+            return (None, None)
 
-    def rename_columns(self, df: pd.DataFrame, rename_map: dict) -> pd.DataFrame:
-        return df.rename(columns=rename_map)
+        match = re.search(r'/([^/]+)/(\d+)', str(uri))
+        return (match.group(1), int(match.group(2))) if match else (None, None)
 
-    def drop_columns(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
-        existing_cols = [col for col in columns if col in df.columns]
-        return df.drop(columns=existing_cols)
+    def extrair_tipos_e_ids(self, df: pd.DataFrame, colunas: dict) -> pd.DataFrame:
+        df = df.copy()
+
+        for coluna_uri, (col_tipo, col_id) in colunas.items():
+
+            if coluna_uri not in df.columns:
+                continue
+
+            resultado = df[coluna_uri].apply(self._extrair_tipo_id)
+
+            resultado = pd.DataFrame(
+                resultado.tolist(),
+                columns=[col_tipo, col_id]
+            )
+
+            df[[col_tipo, col_id]] = resultado
+            df[col_id] = df[col_id].astype("Int64")
+
+        return df
