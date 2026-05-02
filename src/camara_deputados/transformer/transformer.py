@@ -14,16 +14,13 @@ class DataTransformer:
     def rename_and_cast(self, df: pd.DataFrame, mapping: dict) -> pd.DataFrame:
         df = df.copy()
 
-        # 🔹 cria mapa de rename (só colunas existentes)
         rename_map = {
             old: new for old, (new, _) in mapping.items()
             if old in df.columns
         }
 
-        # 🔹 renomeia
         df = df.rename(columns=rename_map)
 
-        # 🔹 aplica tipos
         for _, (new_col, dtype) in mapping.items():
 
             if new_col not in df.columns:
@@ -51,7 +48,6 @@ class DataTransformer:
             except Exception as e:
                 print(f"[rename_and_cast] Erro na coluna '{new_col}': {e}")
 
-        # 🔥 mantém apenas colunas realmente renomeadas
         colunas_final = list(rename_map.values())
 
         return df[colunas_final]
@@ -73,10 +69,16 @@ class DataTransformer:
             return df
 
         df[column] = df[column].apply(
-            lambda x: x if isinstance(x, list) else []
+            lambda x: x if isinstance(x, list)
+            else [x] if isinstance(x, dict)
+            else []
         )
 
         df = df.explode(column)
+
+        df[column] = df[column].apply(
+            lambda x: x if isinstance(x, dict) else {}
+        )
 
         normalized = pd.json_normalize(df[column])
 
@@ -148,5 +150,62 @@ class DataTransformer:
 
             df[[col_tipo, col_id]] = resultado
             df[col_id] = df[col_id].astype("Int64")
+
+        return df
+
+    # =========================
+    # 🔹 GERAÇÃO DE ID (HASH)
+    # =========================
+    def gerar_id_hash(self, df: pd.DataFrame, colunas: list, nome_id: str) -> pd.DataFrame:
+        import hashlib
+
+        df = df.copy()
+
+        for col in colunas:
+            if col not in df.columns:
+                raise ValueError(f"Coluna '{col}' não existe no DataFrame")
+
+        def _hash(row):
+            valores = '|'.join([
+                str(row[col]).strip().upper() if pd.notna(row[col]) else ''
+                for col in colunas
+            ])
+            return hashlib.md5(valores.encode()).hexdigest()
+
+        df[nome_id] = df.apply(_hash, axis=1)
+
+        return df
+
+    # =========================
+    # 🔹 TRATAR LISTAS
+    # =========================
+    def split_and_explode(
+        self,
+        df: pd.DataFrame,
+        coluna: str,
+        nova_coluna: str,
+        sep: str = ","
+    ) -> pd.DataFrame:
+
+        df = df.copy()
+
+        if coluna not in df.columns:
+            return df
+
+        df[coluna] = (
+            df[coluna]
+            .fillna("")
+            .astype(str)
+            .str.lower()
+            .str.strip()
+        )
+
+        df[nova_coluna] = df[coluna].str.split(sep)
+
+        df = df.explode(nova_coluna)
+
+        df[nova_coluna] = df[nova_coluna].str.strip()
+
+        df = df[df[nova_coluna] != ""]
 
         return df
