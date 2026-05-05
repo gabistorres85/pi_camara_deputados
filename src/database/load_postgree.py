@@ -1,5 +1,20 @@
+
 from sqlalchemy import text
-from src.database.connection import get_engine
+from database.connection import get_engine
+
+
+# =========================
+# 🔹 AJUSTE DE TIPOS (FIX GLOBAL)
+# =========================
+def ajustar_tipos_postgres(df):
+    df = df.copy()
+
+    for col in df.columns:
+        # Converte pandas "string" → object (compatível com PostgreSQL)
+        if str(df[col].dtype) == "string":
+            df[col] = df[col].astype(object)
+
+    return df
 
 
 class PostgresLoader:
@@ -7,153 +22,86 @@ class PostgresLoader:
     def __init__(self):
         self.engine = get_engine()
 
-    def load(self, df, table_name, schema="dw", if_exists="append"):
+    # =========================
+    # 🔹 LOAD GENÉRICO
+    # =========================
+    def load(self, df, table_name, schema="dw", truncate=True):
 
         print(f"📥 Carregando {table_name}...")
+
+        # 🔥 Ajusta tipos antes de enviar para o banco
+        df = ajustar_tipos_postgres(df)
+
+        if truncate:
+            with self.engine.begin() as conn:
+                conn.execute(text(f"TRUNCATE TABLE {schema}.{table_name}"))
 
         df.to_sql(
             table_name,
             self.engine,
             schema=schema,
-            if_exists=if_exists,
+            if_exists="append",
             index=False,
             method="multi"
         )
 
         print(f"✅ {table_name} carregada com {len(df)} registros")
-    
+
     def remove_duplicates(self, df, subset):
         return df.drop_duplicates(subset=subset)
-    
+
     # =========================
-    # 🔹 DIM DEPUTADO 
+    # 🔹 DIMENSÕES
     # =========================
 
     def load_dim_deputado(self, df):
-
-        df = self.remove_duplicates(df, ["id_Deputado"])
-
+        df = self.remove_duplicates(df, ["id_deputado"])
         self.load(df, "dim_deputado")
 
-    # =========================
-    # 🔹 DIM PARTIDO 
-    # =========================
-
     def load_dim_partido(self, df):
-
-        df = self.remove_duplicates(df, ["id_Partido"])
-
+        df = self.remove_duplicates(df, ["id_partido"])
         self.load(df, "dim_partido")
 
-    # =========================
-    # 🔹 DIM MANDATO 
-    # =========================
-
     def load_dim_mandato(self, df):
-
-        df = self.remove_duplicates(df, ["id_Mandato"])
-
+        df = self.remove_duplicates(df, ["id_mandato"])
         self.load(df, "dim_mandato")
 
-    # =========================
-    # 🔹 DIM PROPOSICAO 
-    # =========================
-    
-    def load_dim_proposicao(self, df):
+    def load_dim_partido_bloco(self, df):
+        df = self.remove_duplicates(df, ["id_partido_bloco"])
+        self.load(df, "dim_partido_bloco")
 
-        df = self.remove_duplicates(df, ["id_proposicao"])
-
-        self.load(df, "dim_proposicao")
-
-    # =========================
-    # 🔹 DIM TEMPO 
-    # =========================
-
-    def load_dim_tempo(self, df):
-
-        df = self.remove_duplicates(df,['data'])
-
-        self.load(df, "dim_tempo")
-
-    # =========================
-    # 🔹 DIM TEMA 
-    # =========================
-    
+    def load_dim_periodo(self, df):
+        df = df.dropna(subset=["data"])  # evita erro de PK nula
+        df = self.remove_duplicates(df, ["data"])
+        self.load(df, "dim_periodo")
+            
     def load_dim_tema(self, df):
-
         df = self.remove_duplicates(df, ["id_tema"])
-
-        self.load(df, "dim_tema")
-
-    # =========================
-    # 🔹 DIM AUTOR 
-    # =========================
+        self.load(df, "dim_tema") 
     
     def load_dim_autor(self, df):
-
-        df = self.remove_duplicates(df, ["id_Autor"])
-
-        self.load(df, "dim_autor")
+        df = self.remove_duplicates(df, ["id_autor"])
+        self.load(df, "dim_autor")       
 
     # =========================
-    # 🔹 FATO VOTACAO
+    # 🔹 FATOS
     # =========================
-    
+
     def load_fato_votacao(self, df):
-
         df = self.remove_duplicates(df, ["id_votacao"])
-
         self.load(df, "fato_votacao")
-    
-    
-    # =========================
-    # 🔹 FATO VOTO DEPUTADO
-    # =========================
-    
+
     def load_fato_voto_deputado(self, df):
-
-        df = self.remove_duplicates(df, [["id_Deputado",'id_Votacao']])
-
+        df = self.remove_duplicates(df, ["id_votacao", "id_deputado"])
         self.load(df, "fato_voto_deputado")
+
+    def load_fato_orientacao(self, df):
+        df = self.remove_duplicates(df, ["id_votacao", "id_partido_bloco"])
+        self.load(df, "fato_orientacao")
         
-    # =========================
-    # 🔹 FATO ORIENTACAO PARTIDO
-    # =========================
-    
-    def load_fato_orientacao_partido(self, df):
+    def load_fato_proposicao(self, df):
+        df = self.remove_duplicates(df, ["id_proposicao"])
+        self.load(df, "fato_proposicao")
 
-        df = self.remove_duplicates(df, [["id_Deputado",'id_Votacao']])
 
-        self.load(df, "fato_orientacao_partido")
-        
-    
-    # =========================
-    # 🔹 BRIDGE VOTACAO PROPOSICAO
-    # =========================
-    
-    def load_bridge_votacao_proposicao(self, df):
-
-        df = self.remove_duplicates(df, [["id_votacao",'id_proposicao']])
-
-        self.load(df, "bridge_votacao_proposicao")
-        
-    # =========================
-    # 🔹 BRIDGE PROPOSICAO TEMA 
-    # =========================
-    
-    def load_bridge_proposicao_tema(self, df):
-
-        df = self.remove_duplicates(df, [["id_tema",'id_proposicao']])
-
-        self.load(df, "bridge_proposicao_tema")
-
-    # =========================
-    # 🔹 BRIDGE PROPOSICAO TEMA 
-    # =========================
-    
-    def load_bridge_proposicao_autor(self, df):
-
-        df = self.remove_duplicates(df, [["id_Proposicao",'id_Autor']])
-
-        self.load(df, "bridge_proposicao_autor")
-
+  

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "camara_deputados"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "339189f7-bf3d-4101-9d3b-2bb4712c1ec1"
+  }
+}

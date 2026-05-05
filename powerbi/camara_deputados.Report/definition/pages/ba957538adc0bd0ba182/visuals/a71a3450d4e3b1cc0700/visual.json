@@ -1,0 +1,107 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "a71a3450d4e3b1cc0700",
+  "position": {
+    "x": 576,
+    "y": 128,
+    "z": 6000,
+    "height": 576,
+    "width": 336,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_mandato"
+                    }
+                  },
+                  "Property": "uf_representante"
+                }
+              },
+              "queryRef": "dw dim_mandato.uf_representante",
+              "nativeQueryRef": "uf_representante",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Quantidade de deputados"
+                }
+              },
+              "queryRef": "Medidas.Quantidade de deputados",
+              "nativeQueryRef": "Quantidade de deputados"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Medidas"
+                  }
+                },
+                "Property": "Quantidade de deputados"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "077dcae9003807398d0a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dw dim_mandato"
+              }
+            },
+            "Property": "uf_representante"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d8633f324409843d3664",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Quantidade de deputados"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+table 'dw dim_autor'
+	lineageTag: b05c1a18-794e-4357-97d6-87dfd8723101
+
+	column id_autor
+		dataType: string
+		lineageTag: 04821825-9e46-40d6-ac02-436ac249e81e
+		summarizeBy: none
+		sourceColumn: id_autor
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_autor
+		dataType: string
+		lineageTag: 17a0e297-fe71-4f37-b64c-fe3d16c7804a
+		summarizeBy: none
+		sourceColumn: tipo_autor
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_autor
+		dataType: string
+		lineageTag: 97f84a72-fa15-4ddb-ac77-7e04a9117686
+		summarizeBy: none
+		sourceColumn: nome_autor
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8daa58f3-f617-41b6-9f2b-4e125b808383
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: c2c41fd5-5bac-40f4-b12a-5359004a0f47
+			defaultHierarchy: LocalDateTable_be70f7ea-5b85-4f98-9bce-685b50d82f59.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_tipo
+		dataType: string
+		lineageTag: 9d4ce909-c81d-4756-bb49-c5025fbadd72
+		summarizeBy: none
+		sourceColumn: cod_tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_autor' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_dim_autor = Fonte{[Schema="dw",Item="dim_autor"]}[Data]
+				in
+				    dw_dim_autor
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

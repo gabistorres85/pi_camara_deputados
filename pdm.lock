@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:1cf98463a21cf4f0df8dc520ee1e618f00c177f1c95abdb4f607810a4eebc514"
+content_hash = "sha256:f2e638c491f7e876f5e357eb85521a1429e7e32bd2f924ba7a74ee3f3145c649"
 
 [[metadata.targets]]
 requires_python = ">=3.12"
@@ -2426,6 +2426,17 @@ marker = "sys_platform == \"emscripten\" or sys_platform == \"win32\" or python_
 files = [
     {file = "tzdata-2025.3-py2.py3-none-any.whl", hash = "sha256:06a47e5700f3081aab02b2e513160914ff0694bce9947d6b76ebd6bf57cfc5d1"},
     {file = "tzdata-2025.3.tar.gz", hash = "sha256:de39c2ca5dc7b0344f2eba86f49d614019d29f060fc4ebc8a417896a620b56a7"},
+]
+
+[[package]]
+name = "unidecode"
+version = "1.4.0"
+requires_python = ">=3.7"
+summary = "ASCII transliterations of Unicode text"
+groups = ["default"]
+files = [
+    {file = "Unidecode-1.4.0-py3-none-any.whl", hash = "sha256:c3c7606c27503ad8d501270406e345ddb480a7b5f38827eafe4fa82a137f0021"},
+    {file = "Unidecode-1.4.0.tar.gz", hash = "sha256:ce35985008338b676573023acc382d62c264f307c8f7963733405add37ea2b23"},
 ]
 
 [[package]]

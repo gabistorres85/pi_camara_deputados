@@ -1,0 +1,100 @@
+table 'dw dim_proposicao'
+	lineageTag: 3b6edb5c-0a20-4685-98a8-6d21d67dc892
+
+	column id_proposicao
+		dataType: int64
+		formatString: 0
+		lineageTag: d495caa8-dce1-4653-8048-cf33945d37fe
+		summarizeBy: none
+		sourceColumn: id_proposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_tipo
+		dataType: string
+		lineageTag: aab9b37b-a9f8-4575-af98-22620f4c235a
+		summarizeBy: none
+		sourceColumn: cod_tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_proposicao
+		dataType: string
+		lineageTag: 14940ad4-c9ce-4642-9149-15041f9629ce
+		summarizeBy: none
+		sourceColumn: tipo_proposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_proposicao
+		dataType: int64
+		formatString: 0
+		lineageTag: ab4ea8ff-85ed-44be-9efd-9f5316004e97
+		summarizeBy: sum
+		sourceColumn: num_proposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 51c4dd56-e9df-48a3-af15-dc30c8b80598
+		summarizeBy: sum
+		sourceColumn: num_ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_ementa
+		dataType: string
+		lineageTag: a234dba4-1a99-4aa4-a90c-14743d27be0f
+		summarizeBy: none
+		sourceColumn: nom_ementa
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_regime
+		dataType: string
+		lineageTag: 15035f15-cafb-4138-a18a-a65002e54375
+		summarizeBy: none
+		sourceColumn: nom_regime
+
+		annotation SummarizationSetBy = Automatic
+
+	column dat_apresentacao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f7b5da15-80e4-4079-845f-9fdae6cb737f
+		summarizeBy: none
+		sourceColumn: dat_apresentacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8409c485-da3e-41e9-8b00-58b91f402f61
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: 4685a8cf-3b7a-4865-9e11-992c500649c2
+			defaultHierarchy: LocalDateTable_4721faad-e7e6-452a-b250-2ab6c72f630d.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_proposicao' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_dim_proposicao = Fonte{[Schema="dw",Item="dim_proposicao"]}[Data]
+				in
+				    dw_dim_proposicao
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

@@ -1,0 +1,101 @@
+table 'dw fato_votacao'
+	lineageTag: 2cb742e6-9976-4ab8-94db-50bb1539e425
+
+	column id_votacao
+		dataType: string
+		lineageTag: 0a9bb6b3-def1-4438-a552-eef5e837c41b
+		summarizeBy: none
+		sourceColumn: id_votacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_orgao
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ffbe8ee-e077-43d3-9ed5-f89e9a6b5d5f
+		summarizeBy: sum
+		sourceColumn: id_orgao
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_proposicao
+		dataType: int64
+		formatString: 0
+		lineageTag: a3e2acf8-6737-4536-b15b-eb8e8e75d4cd
+		summarizeBy: sum
+		sourceColumn: id_proposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column dat_votacao
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 2e2ea128-23c0-4a27-947f-be117d29fc1b
+		summarizeBy: none
+		sourceColumn: dat_votacao
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column dat_registro
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 43b314be-4bff-4417-b93a-60ef2cf3d9d5
+		summarizeBy: none
+		sourceColumn: dat_registro
+
+		variation Variation
+			isDefault
+			relationship: 503af9dc-9308-476a-9aa0-60632736b6d8
+			defaultHierarchy: LocalDateTable_91bf2dd5-2858-4d5b-ad35-9fda1a654ff7.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column nom_descricao
+		dataType: string
+		lineageTag: be0dec2a-2b41-4762-b98f-cfee5416a7f5
+		summarizeBy: none
+		sourceColumn: nom_descricao
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_aprovado
+		dataType: int64
+		formatString: 0
+		lineageTag: bdc36e45-f20a-4896-af14-72e86f7a0be5
+		summarizeBy: sum
+		sourceColumn: ind_aprovado
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 67421ad1-156c-4b8d-8ead-87e47f5b863e
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: 4a7079c3-4251-4844-bb36-05a1a5c9fb7e
+			defaultHierarchy: LocalDateTable_b9fa5f4c-aa24-4c9d-9692-46233734c3d0.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw fato_votacao' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_fato_votacao = Fonte{[Schema="dw",Item="fato_votacao"]}[Data]
+				in
+				    dw_fato_votacao
+
+	annotation PBI_ResultType = Table
+

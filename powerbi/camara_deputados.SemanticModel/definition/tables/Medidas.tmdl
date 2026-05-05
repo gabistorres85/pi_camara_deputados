@@ -1,0 +1,60 @@
+table Medidas
+	lineageTag: 58cd2125-7662-42ac-9d57-1183b51d9b63
+
+	measure 'Quantidade de deputados' = DISTINCTCOUNT('dw dim_deputado'[id_deputado])
+		formatString: 0
+		lineageTag: 839dad5b-f3e1-4d1e-8e15-b49adb42b84a
+
+	measure Qtd_Proposicoes =
+			
+			CALCULATE(
+			    DISTINCTCOUNT('dw dim_proposicao'[id_proposicao]),
+			    USERELATIONSHIP(
+			        'dw dim_periodo'[data],
+			        'dw dim_proposicao'[dat_apresentacao]
+			    )
+			)
+		formatString: 0
+		lineageTag: bbfde3c9-4fa2-4b77-b43c-2855e493bbfc
+
+	measure Proposicoes_por_Autor =
+			
+			CALCULATE(
+			    COUNTROWS('dw dim_proposicao'),
+			    USERELATIONSHIP(
+			    'dw bridge_proposicao_autor'[id_proposicao],
+			    'dw dim_proposicao'[id_proposicao]
+			    )
+			)
+		formatString: 0
+		lineageTag: 034d714d-549b-4b91-88ef-bc6272794ff0
+
+	measure Duplicados_Proposicao = ```
+			
+			COUNTROWS('dw dim_proposicao') 
+			    - DISTINCTCOUNT('dw dim_proposicao'[id_proposicao])
+			```
+		formatString: 0
+		lineageTag: 3e4e3efb-1450-46a5-923c-618d7a38e672
+
+	column 'Coluna 1'
+		dataType: string
+		lineageTag: ac2bcaae-5b82-480e-82b2-480b3751b2b6
+		summarizeBy: none
+		sourceColumn: Coluna 1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Coluna 1", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

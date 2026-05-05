@@ -1,0 +1,94 @@
+table 'dw dim_periodo'
+	lineageTag: 384af6f8-96d3-49c3-9b93-7d37c314c861
+
+	column data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 732e8f92-b0e3-4d9f-926d-41b0f0f14ec5
+		summarizeBy: none
+		sourceColumn: data
+
+		variation Variation
+			isDefault
+			relationship: 3b0bc775-0458-4dd4-93ad-ef659f691b6b
+			defaultHierarchy: LocalDateTable_8344eb5d-e9fd-43d4-9095-f2cc06f62f14.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 46649e20-5f82-4764-b6d1-aafa8cf2203e
+		summarizeBy: sum
+		sourceColumn: ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes
+		dataType: int64
+		formatString: 0
+		lineageTag: f66b7bd0-e87f-45fd-8893-154f54edadbe
+		summarizeBy: sum
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia
+		dataType: int64
+		formatString: 0
+		lineageTag: 24e0c820-3c1f-4054-a49b-4029b7e9bf11
+		summarizeBy: sum
+		sourceColumn: dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column trimestre
+		dataType: int64
+		formatString: 0
+		lineageTag: e337eaad-4e6d-4cb5-9799-76e13e7979e4
+		summarizeBy: sum
+		sourceColumn: trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_extracao
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 54ea224a-5e16-465a-8d7e-3bd275bd59da
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: 67cce1ac-f524-4c72-bc5c-bd05976a9778
+			defaultHierarchy: LocalDateTable_e9c2ad94-b99f-4922-9dcf-5f0793ae6b63.'Hierarquia de datas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_legislatura
+		dataType: int64
+		formatString: 0
+		lineageTag: 203c08a7-147e-451e-826c-5cbd45557be1
+		summarizeBy: none
+		sourceColumn: id_legislatura
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_periodo' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_dim_periodo = Fonte{[Schema="dw",Item="dim_periodo"]}[Data]
+				in
+				    dw_dim_periodo
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

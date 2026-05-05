@@ -1,0 +1,152 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "516fd04e4486d83e530a",
+  "position": {
+    "x": 16,
+    "y": 128,
+    "z": 1000,
+    "height": 576,
+    "width": 1248,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_deputado"
+                    }
+                  },
+                  "Property": "nome"
+                }
+              },
+              "queryRef": "dw dim_deputado.nome",
+              "nativeQueryRef": "Nome",
+              "displayName": "Nome"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_deputado"
+                    }
+                  },
+                  "Property": "sexo"
+                }
+              },
+              "queryRef": "dw dim_deputado.sexo",
+              "nativeQueryRef": "Gênero",
+              "displayName": "Gênero"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_deputado"
+                    }
+                  },
+                  "Property": "dat_nasc"
+                }
+              },
+              "queryRef": "dw dim_deputado.dat_nasc",
+              "nativeQueryRef": "Data Nasc.",
+              "displayName": "Data Nasc.",
+              "format": "d"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dw dim_deputado"
+                        }
+                      },
+                      "Property": "Idade"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(dw dim_deputado.Idade)",
+              "nativeQueryRef": "Idade",
+              "displayName": "Idade"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_deputado"
+                    }
+                  },
+                  "Property": "municipio_nasc"
+                }
+              },
+              "queryRef": "dw dim_deputado.municipio_nasc",
+              "nativeQueryRef": "Município Nasc.",
+              "displayName": "Município Nasc."
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_mandato"
+                    }
+                  },
+                  "Property": "sigla_partido"
+                }
+              },
+              "queryRef": "dw dim_mandato.sigla_partido",
+              "nativeQueryRef": "Partido",
+              "displayName": "Partido"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_mandato"
+                    }
+                  },
+                  "Property": "uf_representante"
+                }
+              },
+              "queryRef": "dw dim_mandato.uf_representante",
+              "nativeQueryRef": "UF Representante",
+              "displayName": "UF Representante"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dw dim_deputado"
+                  }
+                },
+                "Property": "nome"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

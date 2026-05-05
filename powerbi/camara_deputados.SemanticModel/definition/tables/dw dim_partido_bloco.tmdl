@@ -1,0 +1,44 @@
+table 'dw dim_partido_bloco'
+	lineageTag: 04e941a8-8e7e-43bf-a245-403814b1d76d
+
+	column id_partido_bloco
+		dataType: string
+		lineageTag: 58de5e2b-16d8-4486-be20-32e4216341ed
+		summarizeBy: none
+		sourceColumn: id_partido_bloco
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_sigla
+		dataType: string
+		lineageTag: be2c86fd-a7c4-4e73-be8f-60948486b017
+		summarizeBy: none
+		sourceColumn: nom_sigla
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 959f0a0e-b643-40a9-a473-be7ee77554a3
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: 3376015c-5c1a-4ea5-b25d-e31f1dbb3e6d
+			defaultHierarchy: LocalDateTable_dcc4db5d-12f6-4744-a0d6-3757e0e3a294.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_partido_bloco' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_dim_partido_bloco = Fonte{[Schema="dw",Item="dim_partido_bloco"]}[Data]
+				in
+				    dw_dim_partido_bloco
+
+	annotation PBI_ResultType = Table
+

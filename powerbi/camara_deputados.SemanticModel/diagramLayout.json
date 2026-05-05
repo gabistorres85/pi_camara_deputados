@@ -1,0 +1,338 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1223.6562797091656,
+            "y": 12.454859763048148
+          },
+          "nodeIndex": "dw dim_deputado",
+          "nodeLineageTag": "de1dc532-42be-4ab0-9abc-f8d87f3157ac",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1707.524894684238,
+            "y": 32.85416588691281
+          },
+          "nodeIndex": "dw dim_mandato",
+          "nodeLineageTag": "bbd9d32d-83a4-448d-867c-d578ff55df35",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 1933.3827641569958,
+            "y": 257.31923525
+          },
+          "nodeIndex": "dw dim_partido",
+          "nodeLineageTag": "9c57516d-9577-4fc2-b94f-12ad519f2da8",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 141,
+            "y": 328.16970524024208
+          },
+          "nodeIndex": "dw dim_partido_bloco",
+          "nodeLineageTag": "04e941a8-8e7e-43bf-a245-403814b1d76d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 961.16210515699527,
+            "y": 668.64946928581651
+          },
+          "nodeIndex": "dw dim_periodo",
+          "nodeLineageTag": "384af6f8-96d3-49c3-9b93-7d37c314c861",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 362.35578684945523,
+            "y": 3.9860122500000248
+          },
+          "nodeIndex": "dw dim_proposicao",
+          "nodeLineageTag": "3b6edb5c-0a20-4685-98a8-6d21d67dc892",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 511.73274007305758,
+            "y": 698.07306532163284
+          },
+          "nodeIndex": "dw fato_orientacao",
+          "nodeLineageTag": "72fbabc2-9004-4522-9c6b-b48864b96781",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1331.5426773993956,
+            "y": 838.74897659034548
+          },
+          "nodeIndex": "dw fato_votacao",
+          "nodeLineageTag": "2cb742e6-9976-4ab8-94db-50bb1539e425",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 1532.1295559474217,
+            "y": 314.00918725000008
+          },
+          "nodeIndex": "dw fato_voto_deputado",
+          "nodeLineageTag": "66cc0c75-5ba8-47ff-b5d5-c00f4e146f0e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 719.06228715699478,
+            "y": 443.67754242017287
+          },
+          "nodeIndex": "dw bridge_proposicao_autor",
+          "nodeLineageTag": "7ea59578-41ef-4edf-816e-0d204cc6b713",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 791.54234015699535,
+            "y": 29.1369034201727
+          },
+          "nodeIndex": "dw bridge_proposicao_tema",
+          "nodeLineageTag": "7f417e90-0fe1-42e4-b8dc-8dfe6fe127ff",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 1515.5605491569954,
+            "y": 542.48866642017276
+          },
+          "nodeIndex": "dw dim_tema",
+          "nodeLineageTag": "8dc9634c-da8b-4253-90dc-c59b2b408412",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 2076.382764156996,
+            "y": 503.59593342017274
+          },
+          "nodeIndex": "Medidas",
+          "nodeLineageTag": "58cd2125-7662-42ac-9d57-1183b51d9b63",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1831.4109051569963,
+            "y": 783.25079192017279
+          },
+          "nodeIndex": "dw dim_autor",
+          "nodeLineageTag": "b05c1a18-794e-4357-97d6-87dfd8723101",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 2
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 56.447393005377734,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 334.18972982054771,
+            "y": 153.25984693869577
+          },
+          "nodeIndex": "dw dim_periodo",
+          "nodeLineageTag": "384af6f8-96d3-49c3-9b93-7d37c314c861",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.21842583370267,
+            "y": 581.47665575018846
+          },
+          "nodeIndex": "dw fato_votacao",
+          "nodeLineageTag": "2cb742e6-9976-4ab8-94db-50bb1539e425",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50.000000000000014,
+            "y": -50
+          },
+          "nodeIndex": "dw dim_mandato",
+          "nodeLineageTag": "bbd9d32d-83a4-448d-867c-d578ff55df35",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 621.18377853221887,
+            "y": 301.6173946289835
+          },
+          "nodeIndex": "dw dim_proposicao",
+          "nodeLineageTag": "3b6edb5c-0a20-4685-98a8-6d21d67dc892",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 705.45458742381243,
+            "y": 24.3442728253533
+          },
+          "nodeIndex": "dw fato_voto_deputado",
+          "nodeLineageTag": "66cc0c75-5ba8-47ff-b5d5-c00f4e146f0e",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 63.287087723234023,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 456.18475118062963,
+            "y": 0
+          },
+          "nodeIndex": "dw bridge_proposicao_autor",
+          "nodeLineageTag": "7ea59578-41ef-4edf-816e-0d204cc6b713",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 833.3616394153596,
+            "y": 61.259883455092918
+          },
+          "nodeIndex": "dw dim_autor",
+          "nodeLineageTag": "b05c1a18-794e-4357-97d6-87dfd8723101",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 49.999999999999986,
+            "y": -50
+          },
+          "nodeIndex": "dw dim_proposicao",
+          "nodeLineageTag": "3b6edb5c-0a20-4685-98a8-6d21d67dc892",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 1
+        }
+      ],
+      "name": "Layout 2",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Layout 2",
+  "defaultDiagram": "Todas as tabelas"
+}

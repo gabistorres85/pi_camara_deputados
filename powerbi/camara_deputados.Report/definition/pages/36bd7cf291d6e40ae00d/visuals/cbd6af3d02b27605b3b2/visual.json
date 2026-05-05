@@ -1,0 +1,122 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "cbd6af3d02b27605b3b2",
+  "position": {
+    "x": 368,
+    "y": 208,
+    "z": 5000,
+    "height": 496,
+    "width": 432,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_tema"
+                    }
+                  },
+                  "Property": "nome_tema"
+                }
+              },
+              "queryRef": "dw dim_tema.nome_tema",
+              "nativeQueryRef": "Contagem de nome_tema",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dw bridge_proposicao_tema"
+                        }
+                      },
+                      "Property": "id_proposicao"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(dw bridge_proposicao_tema.id_proposicao)",
+              "nativeQueryRef": "Contagem de id_proposicao"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "dw bridge_proposicao_tema"
+                      }
+                    },
+                    "Property": "id_proposicao"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b6fecdc7c53e9a9e7304",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dw dim_tema"
+              }
+            },
+            "Property": "nome_tema"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "aa99546ee1360c3448ee",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dw bridge_proposicao_tema"
+                  }
+                },
+                "Property": "id_proposicao"
+              }
+            },
+            "Function": 5
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

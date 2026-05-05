@@ -56,3 +56,6 @@ htmlcov/
 
 # Data files
 data/
+
+#Powerbi
+.pbix

@@ -1,5 +1,6 @@
+
 from sqlalchemy import text
-from src.database.connection import get_engine
+from database.connection import get_engine
 
 
 def create_tables():
@@ -8,24 +9,26 @@ def create_tables():
     with engine.connect() as conn:
 
         # =========================
-        # 🔹 SCHEMA
+        # 🔥 RESET TOTAL
         # =========================
         conn.execute(text("""
-            CREATE SCHEMA IF NOT EXISTS dw;
+            DROP SCHEMA IF EXISTS dw CASCADE;
+            CREATE SCHEMA dw;
         """))
 
         # =========================
         # 🔹 DIM DEPUTADO
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.dim_deputado (
+            CREATE TABLE dw.dim_deputado (
                 id_deputado INT PRIMARY KEY,
-                nom_NomeCivil VARCHAR(80),
-                nom_Sexo VARCHAR(10)
-                dat_DataNasc DATE,
-                dat_DataFalecimento DATE,
-                nom_UFNasc VARCHAR(5),
-                nom_MunicipioNasci VARCHAR(50)
+                nome VARCHAR(80),
+                sexo VARCHAR(10),
+                dat_nasc DATE,
+                dat_falecimento DATE,
+                uf_nasc VARCHAR(5),
+                municipio_nasc VARCHAR(50),
+                data_extracao TIMESTAMP
             );
         """))
 
@@ -33,9 +36,10 @@ def create_tables():
         # 🔹 DIM PARTIDO
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.dim_partido (
-                id_Partido INT PRIMARY KEY,
-                nom_SiglaPartido VARCHAR(20)
+            CREATE TABLE dw.dim_partido (
+                id_partido VARCHAR(32) PRIMARY KEY,
+                sigla_partido VARCHAR(20),
+                data_extracao TIMESTAMP
             );
         """))
 
@@ -43,143 +47,135 @@ def create_tables():
         # 🔹 DIM MANDATO
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.dim_mandato (
-                id_Mandato INT PRIMARY KEY,
-                id_Deputado INT,
-                id_Partido INT,
+            CREATE TABLE dw.dim_mandato (
+                id_mandato INT PRIMARY KEY,
+                sigla_partido VARCHAR(20),
+                uf_representante VARCHAR(2),
                 id_legislatura INT,
-                nom_UFRepresenta VARCHAR(2)
+                id_deputado INT,
+                id_partido VARCHAR(32),
+                data_extracao TIMESTAMP
             );
         """))
 
         # =========================
-        # 🔹 DIM PROPOSICAO
+        # 🔹 DIM PARTIDO BLOCO 
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.dim_proposicao (
-                id_proposicao INT PRIMARY KEY,
-                cod_Tipo VARCHAR(50),
-                nom_TipoProposicao VARCHAR(50),
-                num_NumeroProp INT,
-                num_ano INT,
-                nom_Ementa TEXT,
-                nom_regime VARCHAR(50),
-                dat_Apresentacao DATE
+            CREATE TABLE dw.dim_partido_bloco (
+                id_partido_bloco VARCHAR(32) PRIMARY KEY,
+                nom_sigla VARCHAR(50),
+                data_extracao TIMESTAMP
             );
         """))
-
+        
         # =========================
-        # 🔹 DIM TEMPO
+        #🔹 DIM AUTOR
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.dim_tempo (
+           CREATE TABLE dw.dim_autor (
+                id_autor VARCHAR(50) PRIMARY KEY,
+                tipo_autor VARCHAR(100),
+                nome_autor VARCHAR(100),
+                cod_tipo VARCHAR(20),
+                data_extracao TIMESTAMP
+                );
+        """))
+        # =========================
+        # 🔹 DIM PERIODO
+        # =========================
+        conn.execute(text("""
+            CREATE TABLE dw.dim_periodo (
                 data DATE PRIMARY KEY,
                 ano INT,
                 mes INT,
                 dia INT,
-                trimestre INT
+                trimestre INT,
+                data_extracao TIMESTAMP
             );
         """))
-
-        # =========================
-        # 🔹 DIM TEMA
+        
+         # =========================
+        # 🔹 DIM LEGISLATURA
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.dim_tema (
-                id_tema INT,
-                tema VARCHAR(100)
+           CREATE TABLE dw.dim_legislatura (
+            id_legislatura INT PRIMARY KEY,
+            data_inicio DATE,
+            data_fim DATE
             );
         """))
 
-        # =========================
-        # 🔹 DIM AUTOR
-        # =========================
-        conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.dim_autor (
-                id_Autor INT,
-                nom_Autor VARCHAR(100),
-                cod_TipoAutor VARCHAR(15)
-            );
-        """))
 
-        # =========================
-        # 🔹 FATO VOTACAO
-        # =========================
-        conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.fato_votacao (
-                id_votacao VARCHAR(20) PRIMARY KEY,
-                id_Orgao INT,
-                dat_DataVotacao DATE,
-                dat_DataRegistro DATE,
-                ind_Aprovado INT
-            );
-        """))
-
+    
         # =========================
         # 🔹 FATO VOTO DEPUTADO
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.fato_voto_deputado (
-                id_Votacao VARCHAR(20),
-                id_Deputado INT,
-                nom_Voto VARCHAR(50),
-
-                PRIMARY KEY (id_Votacao, id_Deputado)
-            );
-        """))
-
-        # =========================
-        # 🔹 FATO ORIENTACAO PARTIDO
-        # =========================
-        conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.fato_orientacao_partido (
-                id_Votacao VARCHAR(20),
-                id_Partido INT,
-                nom_Orientacao VARCHAR(50),
-
-                PRIMARY KEY (id_votacao, id_partido)
-            );
-        """))
-
-        # =========================
-        # 🔹 BRIDGE VOTACAO PROPOSICAO
-        # =========================
-        conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.bridge_votacao_proposicao (
+            CREATE TABLE dw.fato_voto_deputado (
                 id_votacao VARCHAR(20),
-                id_proposicao INT,
+                id_deputado INT,
+                id_proposicao INT, 
+                nom_voto VARCHAR(20),
+                dat_registro DATE,
+                data_extracao TIMESTAMP,
 
-                PRIMARY KEY (id_votacao, id_proposicao)
+                PRIMARY KEY (id_votacao, id_deputado)
             );
         """))
 
         # =========================
-        # 🔹 BRIDGE PROPOSICAO TEMA 
+        # 🔹 FATO ORIENTACAO (CORRIGIDA)
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.bridge_proposicao_tema (
-                id_tema INT,
-                id_proposicao INT,
+            CREATE TABLE dw.fato_orientacao (
+                id_votacao VARCHAR(20),
+                id_partido_bloco VARCHAR(32),
+                nom_orientacao_voto VARCHAR(50),
+                data_extracao TIMESTAMP,
 
-                PRIMARY KEY (id_tema, id_proposicao)
+                PRIMARY KEY (id_votacao, id_partido_bloco)
             );
         """))
-
+        
         # =========================
-        # 🔹 BRIDGE PROPOSICAO AUTOR 
+        # 🔹 FATO PROPOSICAO
         # =========================
         conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS dw.bridge_proposicao_autor (
-                id_Proposicao INT,
-                id_Autor INT,
-
-                PRIMARY KEY (id_Proposicao, id_Autor)
+            CREATE TABLE dw.fato_proposicao (
+                id_proposicao INT PRIMARY KEY,
+                id_autor INT,
+                cod_tema VARCHAR(20),
+                cod_tipo VARCHAR(50),
+                tipo_proposicao VARCHAR(50),
+                num_proposicao INT,
+                num_ano INT,
+                nom_regime VARCHAR(50),
+                dat_apresentacao DATE,
+                nom_tramitacao VARCHAR(100),
+                data_extracao TIMESTAMP
             );
         """))
+  
+
+
+        # =========================
+        # 🔹 DIM TEMA 
+        # =========================
+        conn.execute(text("""
+            CREATE TABLE dw.dim_tema (
+                id_tema INT PRIMARY KEY,
+                nome_tema VARCHAR(100),
+                data_extracao TIMESTAMP
+                );
+        """))
+        
+ 
 
         conn.commit()
 
-    print("✅ DW completo criado (dim + fato)!")
+    print("🔥 DW recriado com sucesso (modo destruição total ativado)")
+
 
 if __name__ == "__main__":
     create_tables()

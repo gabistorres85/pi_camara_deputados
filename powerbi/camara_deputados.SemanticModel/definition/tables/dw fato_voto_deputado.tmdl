@@ -1,0 +1,75 @@
+table 'dw fato_voto_deputado'
+	lineageTag: 66cc0c75-5ba8-47ff-b5d5-c00f4e146f0e
+
+	column id_votacao
+		dataType: string
+		lineageTag: 465ef147-96a8-4b7c-bca8-d66f58877d2c
+		summarizeBy: none
+		sourceColumn: id_votacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_deputado
+		dataType: int64
+		formatString: 0
+		lineageTag: 7488bc8d-9cd3-40de-bc18-3e15c82bb5ec
+		summarizeBy: none
+		sourceColumn: id_deputado
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_voto
+		dataType: string
+		lineageTag: 271b4c12-d76e-4981-987a-f1b405cb9803
+		summarizeBy: none
+		sourceColumn: nom_voto
+
+		annotation SummarizationSetBy = Automatic
+
+	column dat_registro
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 067557bc-ea0e-4a0a-ad60-a44f1264b210
+		summarizeBy: none
+		sourceColumn: dat_registro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 69c21377-d53f-4963-8107-9a605aea7d99
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: 74fe7c9d-6d08-45dc-9ed4-f1c014c61e20
+			defaultHierarchy: LocalDateTable_45345f93-b571-42fc-845c-c9c5f5804840.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_proposicao
+		dataType: int64
+		formatString: 0
+		lineageTag: 91056f61-481b-4f1a-bc3c-afc845c0c097
+		summarizeBy: sum
+		sourceColumn: id_proposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw fato_voto_deputado' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_fato_voto_deputado = Fonte{[Schema="dw",Item="fato_voto_deputado"]}[Data]
+				in
+				    dw_fato_voto_deputado
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

@@ -1,0 +1,49 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dw dim_deputado","dw dim_mandato","dw dim_partido","dw dim_partido_bloco","dw dim_periodo","dw dim_proposicao","dw fato_orientacao","dw fato_votacao","dw fato_voto_deputado","dw bridge_proposicao_autor","dw bridge_proposicao_tema","dw dim_tema","Medidas","dw dim_autor"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'dw dim_deputado'
+ref table DateTableTemplate_873190b0-9a03-449c-89be-2edb9b8eebb3
+ref table LocalDateTable_f9a8172c-5bf8-43f1-9bf8-3f44f2280584
+ref table LocalDateTable_7a292228-9353-49ee-9073-dc52b006040f
+ref table LocalDateTable_7756fa67-164c-4ef5-8f9e-81f651c17887
+ref table 'dw dim_mandato'
+ref table LocalDateTable_113cc79b-2fd7-44d9-b3e0-1ea550736b28
+ref table 'dw dim_partido'
+ref table LocalDateTable_e5263ef0-5a16-4635-84ca-cd7f996bd073
+ref table 'dw dim_partido_bloco'
+ref table LocalDateTable_dcc4db5d-12f6-4744-a0d6-3757e0e3a294
+ref table 'dw dim_periodo'
+ref table LocalDateTable_8344eb5d-e9fd-43d4-9095-f2cc06f62f14
+ref table LocalDateTable_e9c2ad94-b99f-4922-9dcf-5f0793ae6b63
+ref table 'dw dim_proposicao'
+ref table LocalDateTable_4721faad-e7e6-452a-b250-2ab6c72f630d
+ref table 'dw fato_orientacao'
+ref table LocalDateTable_0f189d6a-e107-4c74-8e6a-5634aaa44e99
+ref table 'dw fato_votacao'
+ref table LocalDateTable_91bf2dd5-2858-4d5b-ad35-9fda1a654ff7
+ref table LocalDateTable_b9fa5f4c-aa24-4c9d-9692-46233734c3d0
+ref table 'dw fato_voto_deputado'
+ref table LocalDateTable_45345f93-b571-42fc-845c-c9c5f5804840
+ref table 'dw bridge_proposicao_autor'
+ref table LocalDateTable_1e780f60-7d88-464a-a547-00446f0adecb
+ref table 'dw bridge_proposicao_tema'
+ref table LocalDateTable_f51ae9f3-0966-463e-8344-380b4faf1007
+ref table 'dw dim_tema'
+ref table LocalDateTable_0e66df06-a4fc-43f8-bff6-cd1a27304ac4
+ref table Medidas
+ref table 'dw dim_autor'
+ref table LocalDateTable_be70f7ea-5b85-4f98-9bce-685b50d82f59
+
+ref cultureInfo pt-BR
+

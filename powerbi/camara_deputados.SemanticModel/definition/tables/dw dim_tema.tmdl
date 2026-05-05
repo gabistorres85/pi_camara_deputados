@@ -1,0 +1,45 @@
+table 'dw dim_tema'
+	lineageTag: 8dc9634c-da8b-4253-90dc-c59b2b408412
+
+	column id_tema
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c1fcc4c-4cff-4951-9803-8d944d4698e6
+		summarizeBy: none
+		sourceColumn: id_tema
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_tema
+		dataType: string
+		lineageTag: b5a7e818-bebb-4363-aeb4-906879c291f9
+		summarizeBy: none
+		sourceColumn: nome_tema
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4eb3e164-9e7e-4b66-a843-c93869847d2d
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: 29181053-3bd3-438a-853f-b4e6b86ad5b6
+			defaultHierarchy: LocalDateTable_0e66df06-a4fc-43f8-bff6-cd1a27304ac4.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_tema' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_dim_tema = Fonte{[Schema="dw",Item="dim_tema"]}[Data]
+				in
+				    dw_dim_tema
+
+	annotation PBI_ResultType = Table
+

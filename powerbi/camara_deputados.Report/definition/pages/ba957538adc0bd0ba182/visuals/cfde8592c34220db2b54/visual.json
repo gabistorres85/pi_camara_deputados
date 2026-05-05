@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "cfde8592c34220db2b54",
+  "position": {
+    "x": 16,
+    "y": 272,
+    "z": 9000,
+    "height": 160,
+    "width": 544,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_deputado"
+                    }
+                  },
+                  "Property": "faixa_etaria"
+                }
+              },
+              "queryRef": "dw dim_deputado.faixa_etaria",
+              "nativeQueryRef": "faixa_etaria",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Quantidade de deputados"
+                }
+              },
+              "queryRef": "Medidas.Quantidade de deputados",
+              "nativeQueryRef": "Quantidade de deputados"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9f37c508ee355d19b989",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dw dim_deputado"
+              }
+            },
+            "Property": "faixa_etaria"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "cfc90bc7ea0a696bed6e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Quantidade de deputados"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

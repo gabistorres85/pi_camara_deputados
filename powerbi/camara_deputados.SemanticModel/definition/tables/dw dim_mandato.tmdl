@@ -1,0 +1,83 @@
+table 'dw dim_mandato'
+	lineageTag: bbd9d32d-83a4-448d-867c-d578ff55df35
+
+	column id_mandato
+		dataType: int64
+		formatString: 0
+		lineageTag: 93d96a5f-70e3-4efe-ae26-e9880cfba1cb
+		summarizeBy: sum
+		sourceColumn: id_mandato
+
+		annotation SummarizationSetBy = Automatic
+
+	column sigla_partido
+		dataType: string
+		lineageTag: c508242c-0c01-4fb7-82bd-60f6f7a74c41
+		summarizeBy: none
+		sourceColumn: sigla_partido
+
+		annotation SummarizationSetBy = Automatic
+
+	column uf_representante
+		dataType: string
+		lineageTag: 47fb4905-3d94-4dd1-af89-db8a0587d4b7
+		summarizeBy: none
+		sourceColumn: uf_representante
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_legislatura
+		dataType: int64
+		formatString: 0
+		lineageTag: af523490-0214-4f0b-8327-aa30c197f06a
+		summarizeBy: none
+		sourceColumn: id_legislatura
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_deputado
+		dataType: int64
+		formatString: 0
+		lineageTag: 2ccd12a8-a0a9-4e40-9702-cd907a95c18d
+		summarizeBy: none
+		sourceColumn: id_deputado
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_partido
+		dataType: string
+		lineageTag: 76f3b55b-9adb-42ad-9e7e-41f2f5eeed09
+		summarizeBy: none
+		sourceColumn: id_partido
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d5ca6434-6f30-4c51-9b33-404a2c04591b
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: c582e2e3-17f7-4695-b6e2-32ea99970754
+			defaultHierarchy: LocalDateTable_113cc79b-2fd7-44d9-b3e0-1ea550736b28.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw dim_mandato' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_dim_mandato = Fonte{[Schema="dw",Item="dim_mandato"]}[Data]
+				in
+				    dw_dim_mandato
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+
