@@ -95,36 +95,6 @@
               "queryRef": "dw dim_deputado.municipio_nasc",
               "nativeQueryRef": "Município Nasc.",
               "displayName": "Município Nasc."
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dw dim_mandato"
-                    }
-                  },
-                  "Property": "sigla_partido"
-                }
-              },
-              "queryRef": "dw dim_mandato.sigla_partido",
-              "nativeQueryRef": "Partido",
-              "displayName": "Partido"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dw dim_mandato"
-                    }
-                  },
-                  "Property": "uf_representante"
-                }
-              },
-              "queryRef": "dw dim_mandato.uf_representante",
-              "nativeQueryRef": "UF Representante",
-              "displayName": "UF Representante"
             }
           ]
         }
@@ -139,7 +109,7 @@
                     "Entity": "dw dim_deputado"
                   }
                 },
-                "Property": "municipio_nasc"
+                "Property": "dat_nasc"
               }
             },
             "direction": "Ascending"
@@ -152,7 +122,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "1aa5490c5a200a90c308",
+        "name": "69e161d0658bed67a68d",
         "field": {
           "Column": {
             "Expression": {
@@ -166,7 +136,7 @@
         "type": "Categorical"
       },
       {
-        "name": "533f0c832c33d50e8c1c",
+        "name": "795a5a2784342b5778dc",
         "field": {
           "Column": {
             "Expression": {
@@ -180,7 +150,7 @@
         "type": "Categorical"
       },
       {
-        "name": "82c4b67117a2a6bc4972",
+        "name": "1d4e154591ee06f8e02d",
         "field": {
           "Column": {
             "Expression": {
@@ -194,7 +164,7 @@
         "type": "Categorical"
       },
       {
-        "name": "e9bd39c6b05035202738",
+        "name": "135bba185102e9c816ac",
         "field": {
           "Column": {
             "Expression": {
@@ -208,35 +178,7 @@
         "type": "Categorical"
       },
       {
-        "name": "5b7d60c8687c00a1be7d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dw dim_mandato"
-              }
-            },
-            "Property": "sigla_partido"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "ee01397460b69aa96266",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dw dim_mandato"
-              }
-            },
-            "Property": "uf_representante"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "96f03b50c8771494e35a",
+        "name": "2891637d8ed55973ff03",
         "field": {
           "Aggregation": {
             "Expression": {

@@ -74,7 +74,7 @@ table 'dw dim_periodo'
 		dataType: int64
 		formatString: 0
 		lineageTag: 203c08a7-147e-451e-826c-5cbd45557be1
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: id_legislatura
 
 		annotation SummarizationSetBy = Automatic

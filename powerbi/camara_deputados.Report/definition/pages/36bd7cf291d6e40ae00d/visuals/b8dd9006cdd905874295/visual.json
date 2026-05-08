@@ -70,5 +70,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6c2cd4d90ead2254f7a1",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dw dim_mandato"
+              }
+            },
+            "Property": "id_legislatura"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

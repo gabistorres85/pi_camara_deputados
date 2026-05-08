@@ -165,24 +165,107 @@ dim_tema = modeling.criar_dim(
 
 salva.save_parquet(dim_tema, 'dim_tema', 'gold')
 
+# -------------------------------------
+# DIM PROPOSICAO
+# -------------------------------------
+df_proposicao = dfs_silver['silver_proposicao']
+
+dim_proposicao = df_proposicao[[
+    'id_proposicao',
+    'nom_tipo_proposicao',
+    'cod_tipo',
+    'num_numero_prop',
+    'num_ano',
+    'dat_apresentacao',
+    'nom_regime',
+    'nom_tipo_tramitacao',
+    'data_extracao'
+]]
+
+dim_proposicao = dim_proposicao.rename(columns={
+    'nom_tipo_proposicao': 'tipo_proposicao',
+    'num_numero_prop': 'num_proposicao',
+    'nom_tipo_tramitacao': 'nom_tramitacao'
+})
+
+dim_proposicao = dim_proposicao.drop_duplicates(subset=['id_proposicao'])
+
+salva.save_parquet(dim_proposicao, 'dim_proposicao', 'gold')
 
 # -------------------------------------
 # DIM AUTOR
 # -------------------------------------
-df_autor = dfs_silver['silver_autores'].rename(columns={
+df_autor = dfs_silver['silver_autores']
+
+# 🔹 seleciona colunas base
+df_autor = df_autor[[
+    'id_autor',
+    'nom_autor',
+    'nom_tipo_autor'
+]]
+
+# 🔹 rename padrão
+df_autor = df_autor.rename(columns={
     'nom_autor': 'nome_autor',
-    'nom_tipo_autor': 'tipo_autor',
-    'cod_tipo_autor': 'cod_tipo'
+    'nom_tipo_autor': 'tipo_autor'
 })
 
-dim_autor = modeling.criar_dim(
-    df=df_autor[['id_autor', 'tipo_autor', 'nome_autor', 'cod_tipo']],
-    colunas=['id_autor', 'tipo_autor', 'nome_autor', 'cod_tipo'],
-    chave_duplicidade=['id_autor']
+# 🔹 cria id_deputado baseado na regra
+df_autor['id_deputado'] = df_autor.apply(
+    lambda x: x['id_autor'] if str(x['tipo_autor']).upper() == 'DEPUTADO' else None,
+    axis=1
 )
 
-salva.save_parquet(dim_autor, 'dim_autor', 'gold')
+# 🔹 remove duplicidade
+df_autor = df_autor.drop_duplicates(subset=['id_autor'])
 
+# 🔹 salva
+salva.save_parquet(df_autor, 'dim_autor', 'gold')
+
+
+
+# -------------------------------------
+# MINI FATO PROPOSICAO
+# -------------------------------------
+df_proposicao_fato = dfs_silver['silver_proposicao'][[
+    'id_proposicao',
+    'data_extracao'
+]]
+
+# 🔹 tema
+df_tema = dfs_silver['silver_temas_proposicao'][[
+    'id_proposicao',
+    'cod_tema'
+]]
+
+# 🔹 autor (pega 1 só → simplificação)
+df_autor_fato = (
+    dfs_silver['silver_autores']
+    .sort_values(['id_proposicao', 'num_ordem_assinatura'])
+    .drop_duplicates(subset=['id_proposicao'])
+)[['id_proposicao', 'id_autor']]
+
+# 🔹 merges limpos
+df_proposicao_fato = df_proposicao_fato.merge(df_tema, on='id_proposicao', how='left')
+df_proposicao_fato = df_proposicao_fato.merge(df_autor_fato, on='id_proposicao', how='left')
+
+# 🔹 remove duplicidade
+df_proposicao_fato = df_proposicao_fato.drop_duplicates()
+
+# 🔹 colunas finais
+cols_fato = [
+    'id_proposicao',
+    'id_autor',
+    'cod_tema',
+    'data_extracao'
+]
+
+df_proposicao_fato = df_proposicao_fato[
+    [col for col in cols_fato if col in df_proposicao_fato.columns]
+]
+
+# 🔹 salva
+salva.save_parquet(df_proposicao_fato, 'fato_proposicao', 'gold')
 
 # -------------------------------------
 # FATO VOTO DEPUTADO
@@ -199,6 +282,11 @@ df_voto_deputado = df_voto_deputado.merge(
     on='id_votacao',
     how='left'
 )
+df_voto_deputado = df_voto_deputado.merge(
+    dim_mandato[['id_deputado', 'id_legislatura', 'id_partido']],
+    on=['id_deputado', 'id_legislatura'],  # 🔥 ajuste crítico
+    how='left'
+)
 
 df_voto_deputado = limpar_colunas_merge(df_voto_deputado)
 
@@ -210,6 +298,18 @@ df_voto_deputado = df_voto_deputado.rename(columns={
 
 salva.save_parquet(df_voto_deputado.drop_duplicates(), 'fato_voto_deputado', 'gold')
 
+# -------------------------------------
+# FATO MANDATO (FACTLESS)
+# -------------------------------------
+
+fato_mandato = dim_mandato[[
+    'id_mandato',
+    'id_deputado',
+    'id_partido',
+    'id_legislatura'
+]].drop_duplicates()
+
+salva.save_parquet(fato_mandato, 'fato_mandato', 'gold')
 
 # -------------------------------------
 # FATO ORIENTACAO
@@ -265,72 +365,51 @@ df_orientacao = df_orientacao[
 # 🔹 salva
 salva.save_parquet(df_orientacao, 'fato_orientacao', 'gold')
 
+# -------------------------------------
+# DIM PERIODO
+# -------------------------------------
+datas = pd.concat([
+    dfs_silver['silver_votacao_proposicao']["dat_data_votacao"],
+    df_voto_deputado["dat_registro"],
+    dim_proposicao["dat_apresentacao"]
+])
+
+datas = pd.to_datetime(datas, errors="coerce")
+
+dim_periodo = datas.dropna().to_frame(name="data").drop_duplicates()
+
+dim_periodo["ano"] = dim_periodo["data"].dt.year
+dim_periodo["mes"] = dim_periodo["data"].dt.month
+dim_periodo["dia"] = dim_periodo["data"].dt.day
+dim_periodo["trimestre"] = dim_periodo["data"].dt.quarter
+
+dim_periodo["data"] = dim_periodo["data"].dt.date
+
+dim_periodo = dim_periodo.drop_duplicates(subset=["data"]).sort_values("data")
+
+salva.save_parquet(dim_periodo, 'dim_periodo', 'gold')
 
 # -------------------------------------
-# FATO PROPOSICAO
+# DIM LEGISLATURA
 # -------------------------------------
-df_proposicao = dfs_silver['silver_proposicao']
+dim_legislatura = dim_mandato[[
+    'id_legislatura'
+]].drop_duplicates()
 
-# 🔹 seleciona só colunas necessárias da proposição
-df_proposicao = df_proposicao[[
-    'id_proposicao',
-    'nom_tipo_proposicao',
-    'cod_tipo',
-    'num_numero_prop',
-    'num_ano',
-    'nom_ementa',
-    'dat_apresentacao',
-    'nom_keywords',
-    'nom_regime',
-    'nom_tipo_tramitacao',
-    'data_extracao'
-]]
+# 🔹 ordena (opcional)
+dim_legislatura = dim_legislatura.sort_values('id_legislatura')
 
-# 🔹 tema (já correto)
-df_tema_fato = dfs_silver['silver_temas_proposicao'][[
-    'id_proposicao',
-    'cod_tema'
-]]
+salva.save_parquet(dim_legislatura, 'dim_legislatura', 'gold')
 
-# 🔹 autor (🔥 só o necessário)
-df_autor_fato = dfs_silver['silver_autores'][[
-    'id_proposicao',
-    'id_autor'
-]]
-
-# 🔹 merges limpos
-df_proposicao = df_proposicao.merge(df_tema_fato, on='id_proposicao', how='left')
-df_proposicao = df_proposicao.merge(df_autor_fato, on='id_proposicao', how='left')
-
-# 🔹 rename final (mantém padrão)
-df_proposicao = df_proposicao.rename(columns={
-    'nom_tipo_proposicao': 'tipo_proposicao',
-    'num_numero_prop': 'num_proposicao',
-    'nom_tipo_tramitacao': 'nom_tramitacao'
-})
-
-# 🔹 colunas finais da fato
-cols_fato_proposicao = [
-    'id_proposicao',
-    'tipo_proposicao',
-    'cod_tipo',
-    'num_proposicao',
-    'num_ano',
-    'dat_apresentacao',
-    'nom_regime',
-    'nom_tramitacao',
-    'id_autor',
-    'cod_tema',
-    'data_extracao'
-]
-
-df_proposicao = df_proposicao[[col for col in cols_fato_proposicao if col in df_proposicao.columns]]
-
-
-salva.save_parquet(df_proposicao, 'fato_proposicao', 'gold')
-salva.save_parquet(df_proposicao, 'fato_proposicao', 'gold')
 print("\n📦 ESTRUTURA DAS TABELAS (DIM + FATO)")
 print("=" * 60)
+
+def print_info(nome, df):
+    print(f"{nome}:")
+    print(f"📊 Registros: {df.shape[0]} | 📋 Colunas: {df.shape[1]}")
+    print(df.columns.tolist())
+    print("-" * 40)
+
 
 # -------------------
 # DIMENSÕES
@@ -338,29 +417,16 @@ print("=" * 60)
 print("\n🔹 DIMENSÕES")
 print("-" * 60)
 
-print("dim_deputado:")
-print(dim_deputado.columns.tolist())
-print("-" * 40)
+print_info("dim_deputado", dim_deputado)
+print_info("dim_partido", dim_partido)
+print_info("dim_mandato", dim_mandato)
+print_info("dim_partido_bloco", dim_partido_bloco)
+print_info("dim_tema", dim_tema)
+print_info("dim_autor", df_autor)
 
-print("dim_partido:")
-print(dim_partido.columns.tolist())
-print("-" * 40)
-
-print("dim_mandato:")
-print(dim_mandato.columns.tolist())
-print("-" * 40)
-
-print("dim_partido_bloco:")
-print(dim_partido_bloco.columns.tolist())
-print("-" * 40)
-
-print("dim_tema:")
-print(dim_tema.columns.tolist())
-print("-" * 40)
-
-print("dim_autor:")
-print(dim_autor.columns.tolist())
-print("-" * 40)
+print("\n📦 DIM_PROPOSICAO")
+print("-" * 50)
+print_info("dim_proposicao", dim_proposicao)
 
 
 # -------------------
@@ -369,16 +435,33 @@ print("-" * 40)
 print("\n🔸 FATOS")
 print("-" * 60)
 
-print("fato_voto_deputado:")
-print(df_voto_deputado.columns.tolist())
-print("-" * 40)
+print_info("fato_voto_deputado", df_voto_deputado)
+print_info("fato_orientacao", df_orientacao)
+print_info("fato_proposicao", df_proposicao)
 
-print("fato_orientacao:")
-print(df_orientacao.columns.tolist())
-print("-" * 40)
+print_info("dim_legislatura", dim_legislatura)
 
-print("fato_proposicao:")
-print(df_proposicao.columns.tolist())
-print("-" * 40)
+
+# -------------------
+# VALIDAÇÃO AUTOR
+# -------------------
+print("\n🔎 VALIDAÇÃO DIM_AUTOR (DEPUTADOS)")
+
+total_deputados = (df_autor['tipo_autor'] == 'DEPUTADO').sum()
+
+deputados_com_id = df_autor[
+    (df_autor['tipo_autor'] == 'DEPUTADO') &
+    (df_autor['id_deputado'].notna())
+].shape[0]
+
+deputados_sem_id = total_deputados - deputados_com_id
+
+print(f"📊 Total registros dim_autor: {df_autor.shape[0]}")
+print(f"👤 Total deputados: {total_deputados}")
+print(f"✔️ Com id_deputado: {deputados_com_id}")
+print(f"❌ Sem id_deputado: {deputados_sem_id}")
+
+if deputados_sem_id > 0:
+    print("⚠️ ATENÇÃO: Existem deputados sem id_deputado!")
 
 print("=" * 60)

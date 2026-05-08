@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "6f4d31feede4ca0c1952",
   "position": {
-    "x": 704,
-    "y": 16,
+    "x": 544,
+    "y": 176,
     "z": 3000,
     "height": 64,
     "width": 144,
@@ -74,7 +74,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "4a144167982e1b97b8d7",
+        "name": "8733f87e4cdfcf0082b5",
         "field": {
           "Column": {
             "Expression": {

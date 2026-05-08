@@ -75,6 +75,7 @@
     "filters": [
       {
         "name": "f27a05f0bd7cb932735c",
+        "ordinal": 0,
         "field": {
           "Column": {
             "Expression": {
@@ -88,7 +89,8 @@
         "type": "Categorical"
       },
       {
-        "name": "8ad5b5009c222ac58865",
+        "name": "86efeae070530e101a7a",
+        "ordinal": 1,
         "field": {
           "Measure": {
             "Expression": {
@@ -96,7 +98,7 @@
                 "Entity": "Medidas"
               }
             },
-            "Property": "Proposicoes_por_Autor"
+            "Property": "Qtd_Proposicoes"
           }
         },
         "type": "Advanced",
@@ -121,7 +123,7 @@
                           "Source": "m"
                         }
                       },
-                      "Property": "Proposicoes_por_Autor"
+                      "Property": "Qtd_Proposicoes"
                     }
                   },
                   "Right": {
@@ -136,6 +138,7 @@
         },
         "howCreated": "User"
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }

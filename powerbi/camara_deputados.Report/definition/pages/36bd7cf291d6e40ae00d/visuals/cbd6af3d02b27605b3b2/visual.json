@@ -81,42 +81,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "b6fecdc7c53e9a9e7304",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dw dim_tema"
-              }
-            },
-            "Property": "nome_tema"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "aa99546ee1360c3448ee",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dw bridge_proposicao_tema"
-                  }
-                },
-                "Property": "id_proposicao"
-              }
-            },
-            "Function": 5
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

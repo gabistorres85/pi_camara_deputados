@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "f4b89587b4051e200e09",
   "position": {
-    "x": 1024,
-    "y": 16,
+    "x": 544,
+    "y": 96,
     "z": 7000,
     "height": 64,
     "width": 144,
@@ -70,23 +70,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "8ea05d39070d645ed871",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dw dim_deputado"
-              }
-            },
-            "Property": "sexo"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

@@ -5,15 +5,34 @@
     "x": 224,
     "y": 128,
     "z": 8000,
-    "height": 128,
+    "height": 160,
     "width": 336,
     "tabOrder": 8000
   },
   "visual": {
-    "visualType": "donutChart",
+    "visualType": "hundredPercentStackedColumnChart",
     "query": {
       "queryState": {
         "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dw dim_legislatura"
+                    }
+                  },
+                  "Property": "id_legislatura"
+                }
+              },
+              "queryRef": "dw dim_legislatura.id_legislatura",
+              "nativeQueryRef": "id_legislatura",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
           "projections": [
             {
               "field": {
@@ -27,8 +46,7 @@
                 }
               },
               "queryRef": "dw dim_deputado.sexo",
-              "nativeQueryRef": "sexo",
-              "active": true
+              "nativeQueryRef": "sexo"
             }
           ]
         },
@@ -75,7 +93,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "ac8b669558ded01a910c",
+        "name": "8f73912b5bf970beda80",
         "field": {
           "Measure": {
             "Expression": {
@@ -89,7 +107,7 @@
         "type": "Advanced"
       },
       {
-        "name": "7dbfc4735c7b74d64b1c",
+        "name": "14d41ac4b3960f9a2108",
         "field": {
           "Column": {
             "Expression": {
@@ -101,6 +119,20 @@
           }
         },
         "type": "Categorical"
+      },
+      {
+        "name": "d07c336b85511433c97c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dw dim_legislatura"
+              }
+            },
+            "Property": "id_legislatura"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

@@ -176,6 +176,7 @@ def criar_silver_votos_deputados(dfs_bronze):
         'tipoVoto': ('nom_voto', 'str'),
         'dataRegistroVoto': ('dat_data_registro', 'date'),
         'deputado_.id': ('id_deputado', 'int'),
+        'deputado_.idLegislatura': ('id_legislatura', 'int'),
         'source_id': ('id_votacao', 'str'),
     }
     df = transformer.rename_and_cast(df, mapping)

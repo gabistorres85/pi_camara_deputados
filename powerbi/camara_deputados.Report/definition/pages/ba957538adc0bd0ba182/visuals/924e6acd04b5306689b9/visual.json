@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "924e6acd04b5306689b9",
   "position": {
-    "x": 864,
-    "y": 16,
+    "x": 560,
+    "y": 256,
     "z": 4000,
     "height": 64,
     "width": 144,
@@ -121,20 +121,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "0a777d0e05502a8ca60e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dw dim_mandato"
-              }
-            },
-            "Property": "sigla_partido"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

@@ -1,0 +1,65 @@
+table 'dw fato_mandato'
+	lineageTag: fc282864-eb75-4c2c-bd4c-52ee09a16209
+
+	column id_mandato
+		dataType: int64
+		formatString: 0
+		lineageTag: 3bace07a-6965-4e00-ab33-00fcc982c825
+		summarizeBy: sum
+		sourceColumn: id_mandato
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_deputado
+		dataType: int64
+		formatString: 0
+		lineageTag: 8f8be216-1ac1-4de8-b0e3-8618800b5f9c
+		summarizeBy: none
+		sourceColumn: id_deputado
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_partido
+		dataType: string
+		lineageTag: 0bec063a-5d7f-4b06-a646-18b5815f50f3
+		summarizeBy: none
+		sourceColumn: id_partido
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_legislatura
+		dataType: int64
+		formatString: 0
+		lineageTag: 36f6af3d-7d25-4619-8a87-9db2c5634e10
+		summarizeBy: none
+		sourceColumn: id_legislatura
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_extracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2434639d-0449-4b30-9f16-e43d677255cd
+		summarizeBy: none
+		sourceColumn: data_extracao
+
+		variation Variation
+			isDefault
+			relationship: 26521262-4d42-4482-b9f6-c2b7360c814e
+			defaultHierarchy: LocalDateTable_05e1e788-2214-4583-92c8-f3a8c57b5239.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dw fato_mandato' = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
+				    dw_fato_mandato = Fonte{[Schema="dw",Item="fato_mandato"]}[Data]
+				in
+				    dw_fato_mandato
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -23,11 +23,11 @@
                       "Entity": "dw dim_periodo"
                     }
                   },
-                  "Property": "ano"
+                  "Property": "id_legislatura"
                 }
               },
-              "queryRef": "dw dim_periodo.ano",
-              "nativeQueryRef": "ano",
+              "queryRef": "dw dim_periodo.id_legislatura",
+              "nativeQueryRef": "id_legislatura",
               "active": true
             }
           ]
@@ -86,7 +86,8 @@
             "Property": "ano"
           }
         },
-        "type": "Advanced"
+        "type": "Advanced",
+        "howCreated": "User"
       },
       {
         "name": "52091d54498e66ebd102",
@@ -137,6 +138,20 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "3185475e2620ba4b65aa",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dw dim_periodo"
+              }
+            },
+            "Property": "id_legislatura"
+          }
+        },
+        "type": "Advanced"
       }
     ],
     "filterSortOrder": "Custom"

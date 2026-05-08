@@ -32,6 +32,7 @@ def main():
     loader.load_dim_periodo(dfs['dim_periodo'])
     loader.load_dim_tema(dfs['dim_tema'])
     loader.load_dim_autor(dfs['dim_autor'])
+    loader.load_dim_legislatura(dfs['dim_legislatura'])
 
     
     
@@ -44,6 +45,7 @@ def main():
     loader.load_fato_voto_deputado(dfs['fato_voto_deputado'])
     loader.load_fato_orientacao(dfs['fato_orientacao'])
     loader.load_fato_proposicao(dfs['fato_proposicao'])
+    loader.load_fato_mandato(dfs['fato_mandato'])
 
     print("\n🔥 PIPELINE FINALIZADO COM SUCESSO 🔥")
 

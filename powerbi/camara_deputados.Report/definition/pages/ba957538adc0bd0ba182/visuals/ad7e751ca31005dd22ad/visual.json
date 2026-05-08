@@ -74,7 +74,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "faeaa7670ba60e7631b0",
+        "name": "cd32c384a9ef12c98bdb",
         "field": {
           "Column": {
             "Expression": {
@@ -88,7 +88,7 @@
         "type": "Categorical"
       },
       {
-        "name": "4aa48a090d9d5dbcb34e",
+        "name": "74f98ef11933bd22df15",
         "field": {
           "Measure": {
             "Expression": {

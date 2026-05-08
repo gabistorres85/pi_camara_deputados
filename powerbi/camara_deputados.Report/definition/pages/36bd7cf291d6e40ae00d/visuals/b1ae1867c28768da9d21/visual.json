@@ -4,13 +4,13 @@
   "position": {
     "x": 816,
     "y": 208,
-    "z": 6001,
+    "z": 7000,
     "height": 496,
     "width": 432,
-    "tabOrder": 6001
+    "tabOrder": 7000
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "columnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,11 +23,11 @@
                       "Entity": "dw dim_autor"
                     }
                   },
-                  "Property": "cod_tipo"
+                  "Property": "tipo_autor"
                 }
               },
-              "queryRef": "dw dim_autor.cod_tipo",
-              "nativeQueryRef": "cod_tipo",
+              "queryRef": "dw dim_autor.tipo_autor",
+              "nativeQueryRef": "tipo_autor",
               "active": true
             }
           ]
@@ -81,42 +81,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "002fb6904d875c932074",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dw bridge_proposicao_tema"
-                  }
-                },
-                "Property": "id_proposicao"
-              }
-            },
-            "Function": 5
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "bcbe16cd1a0b0c410a4c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dw dim_autor"
-              }
-            },
-            "Property": "cod_tipo"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

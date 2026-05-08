@@ -57,7 +57,24 @@ def create_tables():
                 data_extracao TIMESTAMP
             );
         """))
-
+        
+        # =========================
+        # 🔹 DIM PROPOSICAO
+        # =========================
+        conn.execute(text("""
+            CREATE TABLE dw.dim_proposicao (
+                id_proposicao INT PRIMARY KEY,
+                cod_tipo VARCHAR(50),
+                tipo_proposicao VARCHAR(50),
+                num_proposicao INT,
+                num_ano INT,
+                nom_regime VARCHAR(50),
+                dat_apresentacao DATE,
+                nom_tramitacao VARCHAR(100),
+                data_extracao TIMESTAMP
+            );
+        """))
+        
         # =========================
         # 🔹 DIM PARTIDO BLOCO 
         # =========================
@@ -69,18 +86,21 @@ def create_tables():
             );
         """))
         
+            
         # =========================
-        #🔹 DIM AUTOR
+        # 🔹 DIM AUTOR
         # =========================
         conn.execute(text("""
-           CREATE TABLE dw.dim_autor (
+            CREATE TABLE dw.dim_autor (
                 id_autor VARCHAR(50) PRIMARY KEY,
                 tipo_autor VARCHAR(100),
                 nome_autor VARCHAR(100),
+                id_deputado INT,
                 cod_tipo VARCHAR(20),
                 data_extracao TIMESTAMP
-                );
+            );
         """))
+        
         # =========================
         # 🔹 DIM PERIODO
         # =========================
@@ -101,8 +121,7 @@ def create_tables():
         conn.execute(text("""
            CREATE TABLE dw.dim_legislatura (
             id_legislatura INT PRIMARY KEY,
-            data_inicio DATE,
-            data_fim DATE
+            data_extracao TIMESTAMP
             );
         """))
 
@@ -115,12 +134,29 @@ def create_tables():
             CREATE TABLE dw.fato_voto_deputado (
                 id_votacao VARCHAR(20),
                 id_deputado INT,
-                id_proposicao INT, 
+                id_proposicao INT,
+                id_partido VARCHAR(40),
+                id_legislatura INT,
                 nom_voto VARCHAR(20),
                 dat_registro DATE,
                 data_extracao TIMESTAMP,
 
                 PRIMARY KEY (id_votacao, id_deputado)
+            );
+        """))
+        
+        # =========================
+        # 🔹 FATO VOTO MANDATO
+        # =========================
+        conn.execute(text("""
+           CREATE TABLE dw.fato_mandato (
+            id_mandato INT,
+            id_deputado INT,
+            id_partido VARCHAR(50),
+            id_legislatura INT,
+            data_extracao TIMESTAMP,
+
+            PRIMARY KEY (id_mandato)
             );
         """))
 
@@ -138,25 +174,20 @@ def create_tables():
             );
         """))
         
+       
         # =========================
-        # 🔹 FATO PROPOSICAO
+        # 🔹 MINI FATO PROPOSICAO
         # =========================
         conn.execute(text("""
             CREATE TABLE dw.fato_proposicao (
-                id_proposicao INT PRIMARY KEY,
+                id_proposicao INT,
                 id_autor INT,
                 cod_tema VARCHAR(20),
-                cod_tipo VARCHAR(50),
-                tipo_proposicao VARCHAR(50),
-                num_proposicao INT,
-                num_ano INT,
-                nom_regime VARCHAR(50),
-                dat_apresentacao DATE,
-                nom_tramitacao VARCHAR(100),
-                data_extracao TIMESTAMP
+                data_extracao TIMESTAMP,
+                PRIMARY KEY (id_proposicao)
             );
         """))
-  
+
 
 
         # =========================

@@ -28,9 +28,10 @@ table 'dw dim_mandato'
 
 	column id_legislatura
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: af523490-0214-4f0b-8327-aa30c197f06a
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: id_legislatura
 
 		changedProperty = IsHidden

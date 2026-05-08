@@ -33,6 +33,11 @@ table 'dw fato_voto_deputado'
 		summarizeBy: none
 		sourceColumn: dat_registro
 
+		variation Variation
+			isDefault
+			relationship: d2d10f9b-1d1f-4b94-a2df-9988130ef943
+			defaultHierarchy: LocalDateTable_bbfd5553-df09-4eae-b99b-4de1807beace.'Hierarquia de datas'
+
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -57,6 +62,26 @@ table 'dw fato_voto_deputado'
 		lineageTag: 91056f61-481b-4f1a-bc3c-afc845c0c097
 		summarizeBy: sum
 		sourceColumn: id_proposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_partido
+		dataType: string
+		isHidden
+		lineageTag: 4a1fc053-8843-47c1-91c7-a52230bcb0e7
+		summarizeBy: none
+		sourceColumn: id_partido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_legislatura
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d2feeed-eebf-43d5-b94d-b32e7b688620
+		summarizeBy: sum
+		sourceColumn: id_legislatura
 
 		annotation SummarizationSetBy = Automatic
 

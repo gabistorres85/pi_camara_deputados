@@ -1,18 +1,35 @@
-table 'dw dim_proposicao'
-	lineageTag: e3cff393-7ba6-4ce0-97e3-5bfe7c6e207a
+table 'dw fato_proposicao'
+	lineageTag: b96e5e32-f391-4329-8d99-3124b793fb04
 
 	column id_proposicao
 		dataType: int64
 		formatString: 0
-		lineageTag: 6528045e-548b-4981-b15c-d6b3defc0a50
+		lineageTag: e01cc9f0-ae46-40a9-8c64-cc8482d164e2
 		summarizeBy: none
 		sourceColumn: id_proposicao
 
 		annotation SummarizationSetBy = Automatic
 
+	column id_autor
+		dataType: int64
+		formatString: 0
+		lineageTag: 056be1ef-cfb5-4394-8aeb-14c2b0fe0f64
+		summarizeBy: none
+		sourceColumn: id_autor
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_tema
+		dataType: string
+		lineageTag: 3ed52c14-db6e-48ae-8d5c-2ddb1710c4c9
+		summarizeBy: none
+		sourceColumn: cod_tema
+
+		annotation SummarizationSetBy = Automatic
+
 	column cod_tipo
 		dataType: string
-		lineageTag: 265edcd8-9915-45d7-a611-8d97cd4aea35
+		lineageTag: 2109e4ad-8a30-4e28-b23b-367a91281b92
 		summarizeBy: none
 		sourceColumn: cod_tipo
 
@@ -20,7 +37,7 @@ table 'dw dim_proposicao'
 
 	column tipo_proposicao
 		dataType: string
-		lineageTag: a6144c31-9e09-48fb-8cd1-143bf698cefd
+		lineageTag: 2a5a7840-34fe-4106-a720-8da2ded826df
 		summarizeBy: none
 		sourceColumn: tipo_proposicao
 
@@ -29,7 +46,7 @@ table 'dw dim_proposicao'
 	column num_proposicao
 		dataType: int64
 		formatString: 0
-		lineageTag: 7f1a0a62-9d39-4db5-84e3-32481a4ff2d9
+		lineageTag: 656f73bf-6f67-45fd-8d75-3a3e17821d95
 		summarizeBy: sum
 		sourceColumn: num_proposicao
 
@@ -38,7 +55,7 @@ table 'dw dim_proposicao'
 	column num_ano
 		dataType: int64
 		formatString: 0
-		lineageTag: 13b1539e-86fb-4f94-bd2c-951fda393779
+		lineageTag: 47f4934d-34eb-46cf-8e64-041873721c99
 		summarizeBy: sum
 		sourceColumn: num_ano
 
@@ -46,7 +63,7 @@ table 'dw dim_proposicao'
 
 	column nom_regime
 		dataType: string
-		lineageTag: ab262444-530c-430d-a317-0fc00ae40f61
+		lineageTag: 89c7c4cb-69a3-490f-938d-3cf04a76b938
 		summarizeBy: none
 		sourceColumn: nom_regime
 
@@ -55,14 +72,9 @@ table 'dw dim_proposicao'
 	column dat_apresentacao
 		dataType: dateTime
 		formatString: Long Date
-		lineageTag: 619a2733-55a5-48be-bd36-3cd57d622d7b
+		lineageTag: 974119e9-61b8-47d2-b15d-b04ce2dda127
 		summarizeBy: none
 		sourceColumn: dat_apresentacao
-
-		variation Variation
-			isDefault
-			relationship: 4d693869-5bc2-488e-8ddb-c99bd98e7f98
-			defaultHierarchy: LocalDateTable_7211fb51-5439-430e-86be-75ef1d24530c.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -70,7 +82,7 @@ table 'dw dim_proposicao'
 
 	column nom_tramitacao
 		dataType: string
-		lineageTag: 848164c3-f852-4f92-be61-6945136dae56
+		lineageTag: 3f708e70-9750-47ba-8c31-3e7d760a6f9f
 		summarizeBy: none
 		sourceColumn: nom_tramitacao
 
@@ -78,26 +90,29 @@ table 'dw dim_proposicao'
 
 	column data_extracao
 		dataType: dateTime
+		isHidden
 		formatString: General Date
-		lineageTag: def241e5-cc80-4275-a906-0a49c93d40b2
+		lineageTag: d16d85af-860c-45b3-bf5b-80b0250c7f1a
 		summarizeBy: none
 		sourceColumn: data_extracao
 
 		variation Variation
 			isDefault
-			relationship: 7959ab2b-012b-442e-8eee-3dc14958e9f4
-			defaultHierarchy: LocalDateTable_5dd925ac-3e65-4610-b421-2e4e59b98f46.'Hierarquia de datas'
+			relationship: beae01d4-8c2e-4c1c-913f-0f55d0fde236
+			defaultHierarchy: LocalDateTable_24a8a82d-55c9-4015-97bc-5fc8022d7872.'Hierarquia de datas'
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
-	partition 'dw dim_proposicao' = m
+	partition 'dw fato_proposicao' = m
 		mode: import
 		source =
 				let
 				    Fonte = PostgreSQL.Database("172.28.179.100:5432", "dw_camara"),
-				    dw_dim_proposicao = Fonte{[Schema="dw",Item="dim_proposicao"]}[Data]
+				    dw_fato_proposicao = Fonte{[Schema="dw",Item="fato_proposicao"]}[Data]
 				in
-				    dw_dim_proposicao
+				    dw_fato_proposicao
 
 	annotation PBI_NavigationStepName = Navegação
 

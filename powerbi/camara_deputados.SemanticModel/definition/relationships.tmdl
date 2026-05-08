@@ -38,109 +38,99 @@ relationship 67cce1ac-f524-4c72-bc5c-bd05976a9778
 	fromColumn: 'dw dim_periodo'.data_extracao
 	toColumn: LocalDateTable_e9c2ad94-b99f-4922-9dcf-5f0793ae6b63.Date
 
-relationship 4685a8cf-3b7a-4865-9e11-992c500649c2
-	joinOnDateBehavior: datePartOnly
-	fromColumn: 'dw dim_proposicao'.data_extracao
-	toColumn: LocalDateTable_4721faad-e7e6-452a-b250-2ab6c72f630d.Date
-
 relationship 026df5aa-a607-4a96-be80-63f4cc0846fa
 	joinOnDateBehavior: datePartOnly
 	fromColumn: 'dw fato_orientacao'.data_extracao
 	toColumn: LocalDateTable_0f189d6a-e107-4c74-8e6a-5634aaa44e99.Date
-
-relationship 503af9dc-9308-476a-9aa0-60632736b6d8
-	joinOnDateBehavior: datePartOnly
-	fromColumn: 'dw fato_votacao'.dat_registro
-	toColumn: LocalDateTable_91bf2dd5-2858-4d5b-ad35-9fda1a654ff7.Date
-
-relationship 4a7079c3-4251-4844-bb36-05a1a5c9fb7e
-	joinOnDateBehavior: datePartOnly
-	fromColumn: 'dw fato_votacao'.data_extracao
-	toColumn: LocalDateTable_b9fa5f4c-aa24-4c9d-9692-46233734c3d0.Date
 
 relationship 74fe7c9d-6d08-45dc-9ed4-f1c014c61e20
 	joinOnDateBehavior: datePartOnly
 	fromColumn: 'dw fato_voto_deputado'.data_extracao
 	toColumn: LocalDateTable_45345f93-b571-42fc-845c-c9c5f5804840.Date
 
-relationship f80d64fc-7963-4508-9a77-4f223ffc46df
-	joinOnDateBehavior: datePartOnly
-	fromColumn: 'dw bridge_proposicao_autor'.data_extracao
-	toColumn: LocalDateTable_1e780f60-7d88-464a-a547-00446f0adecb.Date
-
-relationship 20d05d6d-a78f-4ff3-8aba-e29c6acccf62
-	joinOnDateBehavior: datePartOnly
-	fromColumn: 'dw bridge_proposicao_tema'.data_extracao
-	toColumn: LocalDateTable_f51ae9f3-0966-463e-8344-380b4faf1007.Date
-
 relationship 29181053-3bd3-438a-853f-b4e6b86ad5b6
 	joinOnDateBehavior: datePartOnly
 	fromColumn: 'dw dim_tema'.data_extracao
 	toColumn: LocalDateTable_0e66df06-a4fc-43f8-bff6-cd1a27304ac4.Date
-
-relationship 40b6be30-c909-a1eb-7429-312c03fad7f1
-	fromColumn: 'dw fato_orientacao'.id_partido_bloco
-	toColumn: 'dw dim_partido_bloco'.id_partido_bloco
-
-relationship 1694e137-b125-d29f-7d64-56fcb3c0629a
-	fromColumn: 'dw fato_voto_deputado'.id_deputado
-	toColumn: 'dw dim_deputado'.id_deputado
-
-relationship ad6b31a9-9e26-e329-39fa-e09ccee12f18
-	fromColumn: 'dw fato_votacao'.dat_votacao
-	toColumn: 'dw dim_periodo'.data
-
-relationship 78f3bb64-2a69-5404-82d5-2b61a91f9d9c
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: 'dw dim_mandato'.id_deputado
-	toColumn: 'dw dim_deputado'.id_deputado
-
-relationship f0dcab3d-625f-bc77-b49e-feb94ae98df7
-	fromColumn: 'dw dim_mandato'.id_partido
-	toColumn: 'dw dim_partido'.id_partido
-
-relationship 91d9c6e7-d8cc-657c-4f04-9f7a2229354c
-	fromColumn: 'dw bridge_proposicao_tema'.id_proposicao
-	toColumn: 'dw dim_proposicao'.id_proposicao
-
-relationship 0db0c139-04f8-bdf6-84f8-a2a0cff90f45
-	fromColumn: 'dw bridge_proposicao_tema'.id_tema
-	toColumn: 'dw dim_tema'.id_tema
-
-relationship AutoDetected_8abd8f0d-a07d-4488-bb72-051da953280b
-	isActive: false
-	fromColumn: 'dw fato_voto_deputado'.id_proposicao
-	toColumn: 'dw dim_proposicao'.id_proposicao
 
 relationship c2c41fd5-5bac-40f4-b12a-5359004a0f47
 	joinOnDateBehavior: datePartOnly
 	fromColumn: 'dw dim_autor'.data_extracao
 	toColumn: LocalDateTable_be70f7ea-5b85-4f98-9bce-685b50d82f59.Date
 
-relationship 0531dbf1-0c3e-9d9d-ce05-dfa63ad3643e
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: 'dw dim_periodo'.id_legislatura
-	toColumn: 'dw dim_mandato'.id_legislatura
+relationship beae01d4-8c2e-4c1c-913f-0f55d0fde236
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw fato_proposicao'.data_extracao
+	toColumn: LocalDateTable_24a8a82d-55c9-4015-97bc-5fc8022d7872.Date
 
-relationship 8de61935-80ca-b7fe-fe65-a51a34ad83b9
-	isActive: false
+relationship d2d10f9b-1d1f-4b94-a2df-9988130ef943
+	joinOnDateBehavior: datePartOnly
 	fromColumn: 'dw fato_voto_deputado'.dat_registro
-	toColumn: 'dw dim_periodo'.data
+	toColumn: LocalDateTable_bbfd5553-df09-4eae-b99b-4de1807beace.Date
 
-relationship cd222951-9ae1-85f8-b95e-8de6d54dadf1
-	isActive: false
-	fromColumn: 'dw dim_proposicao'.dat_apresentacao
-	toColumn: 'dw dim_periodo'.data
-
-relationship a51b63e5-a089-3ee9-57d5-89c38e846b2a
-	crossFilteringBehavior: bothDirections
-	fromColumn: 'dw bridge_proposicao_autor'.id_autor
+relationship 551e6138-674a-644f-342f-490031f25e32
+	fromColumn: 'dw fato_proposicao'.id_autor
 	toColumn: 'dw dim_autor'.id_autor
 
-relationship b17a9a2a-cd74-b9fb-78a5-5c702f41f808
+relationship 093878bd-6a42-5827-7687-c5a41f186f1c
+	fromColumn: 'dw fato_orientacao'.id_partido_bloco
+	toColumn: 'dw dim_partido_bloco'.id_partido_bloco
+
+relationship d182c6ef-668c-f3f8-45bb-81422bb9bb88
+	fromColumn: 'dw fato_proposicao'.cod_tema
+	toColumn: 'dw dim_tema'.id_tema
+
+relationship 4d693869-5bc2-488e-8ddb-c99bd98e7f98
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw dim_proposicao'.dat_apresentacao
+	toColumn: LocalDateTable_7211fb51-5439-430e-86be-75ef1d24530c.Date
+
+relationship 7959ab2b-012b-442e-8eee-3dc14958e9f4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw dim_proposicao'.data_extracao
+	toColumn: LocalDateTable_5dd925ac-3e65-4610-b421-2e4e59b98f46.Date
+
+relationship AutoDetected_05675b5c-cbce-496d-9524-6a1cc4d235ab
 	crossFilteringBehavior: bothDirections
-	fromColumn: 'dw bridge_proposicao_autor'.id_proposicao
-	toColumn: 'dw dim_proposicao'.id_proposicao
+	fromCardinality: one
+	fromColumn: 'dw dim_proposicao'.id_proposicao
+	toColumn: 'dw fato_proposicao'.id_proposicao
+
+relationship 7945023c-0411-dfcb-1a55-ce54eefdce24
+	fromColumn: 'dw fato_proposicao'.dat_apresentacao
+	toColumn: 'dw dim_periodo'.data
+
+relationship caf087d6-4b54-10bd-d862-99286760ef2f
+	fromColumn: 'dw fato_voto_deputado'.id_deputado
+	toColumn: 'dw dim_mandato'.id_deputado
+
+relationship 3f7535d8-1b3c-4643-ba2a-9059236e7a8c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw dim_legislatura'.data_extracao
+	toColumn: LocalDateTable_6674aa51-9833-496d-9811-6c6b3bb49308.Date
+
+relationship 26521262-4d42-4482-b9f6-c2b7360c814e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'dw fato_mandato'.data_extracao
+	toColumn: LocalDateTable_05e1e788-2214-4583-92c8-f3a8c57b5239.Date
+
+relationship AutoDetected_e71d28c0-74b2-4b8e-8fce-a92580ee6396
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'dw fato_mandato'.id_deputado
+	toColumn: 'dw dim_mandato'.id_deputado
+
+relationship AutoDetected_43dec7fd-6257-459a-bc24-c5f8b938b981
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'dw fato_mandato'.id_deputado
+	toColumn: 'dw dim_deputado'.id_deputado
+
+relationship AutoDetected_f842d212-e208-43dd-9cb4-4c4ac6fbf25d
+	fromColumn: 'dw fato_mandato'.id_legislatura
+	toColumn: 'dw dim_legislatura'.id_legislatura
+
+relationship AutoDetected_17031e9a-4280-4a49-9ded-3276f60be4c1
+	fromColumn: 'dw fato_mandato'.id_partido
+	toColumn: 'dw dim_partido'.id_partido
 
