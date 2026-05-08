@@ -57,5 +57,34 @@ htmlcov/
 # Data files
 data/
 
-#Powerbi
-.pbix
+
+# =========================
+# Power BI PBIR
+# =========================
+
+# Cache / local
+**/.pbi/
+**/.cache/
+
+# Local settings
+**/localSettings.json
+
+# User-specific
+*.pbix.lock
+*.tmp
+
+# Auto recovery
+**/AutoRecovery/
+
+# Dataset cache
+**/Cache.abf
+
+# Power BI desktop temp
+*.Mashup
+*.mashup
+
+# Logs
+*.diag
+
+# Ignore PBIX
+*.pbix
