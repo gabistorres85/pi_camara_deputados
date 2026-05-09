@@ -410,6 +410,26 @@ def print_info(nome, df):
     print(df.columns.tolist())
     print("-" * 40)
 
+#-----------------------
+# BRIDGE AUTOR DEPUTADO
+# ------------------
+
+bridge_autor_deputado = (
+    df_autor[['id_autor']]
+    .dropna()
+    .drop_duplicates()
+    .rename(columns={'id_autor': 'id_deputado'})
+)
+
+bridge_autor_deputado['id_autor'] = bridge_autor_deputado['id_deputado']
+
+bridge_autor_deputado = bridge_autor_deputado[
+    ['id_autor', 'id_deputado']
+]
+
+bridge_autor_deputado['data_extracao'] = pd.Timestamp.now()
+
+salva.save_parquet(bridge_autor_deputado, 'bridge_autor_deputado', 'gold')
 
 # -------------------
 # DIMENSÕES

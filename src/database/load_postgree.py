@@ -176,4 +176,6 @@ class PostgresLoader:
         df = self.remove_duplicates(df, ["id_mandato"])
         self.load(df, "fato_mandato")
 
-  
+    def load_bridge_autor_deputado(self, df):
+        df = self.remove_duplicates(df, ["id_autor"])
+        self.load(df, "bridge_autor_deputado")

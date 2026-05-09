@@ -201,6 +201,17 @@ def create_tables():
                 );
         """))
         
+        # =========================
+        # 🔹 BRIDGE AUTOR DEPUTADO
+        # =========================
+        conn.execute(text("""
+            CREATE TABLE dw.bridge_autor_deputado (
+                id_autor INT PRIMARY KEY,
+                id_deputado INT,
+                data_extracao TIMESTAMP
+                );
+        """))
+        
  
 
         conn.commit()

@@ -46,9 +46,12 @@ def main():
     loader.load_fato_orientacao(dfs['fato_orientacao'])
     loader.load_fato_proposicao(dfs['fato_proposicao'])
     loader.load_fato_mandato(dfs['fato_mandato'])
+    
+    loader.load_bridge_autor_deputado(dfs['bridge_autor_deputado'])
 
     print("\n🔥 PIPELINE FINALIZADO COM SUCESSO 🔥")
 
     
 if __name__ == "__main__":
     main()
+''
